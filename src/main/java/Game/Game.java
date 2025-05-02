@@ -1,8 +1,6 @@
 package Game;
 
-import Core.*;
 import Core.Engine.IAppLogic;
-import Core.Scene.Entity.Component.CharacterController;
 import Core.Scene.Entity.GameObject;
 import Core.Scene.Entity.Material;
 import Core.Scene.Entity.Mesh;
@@ -10,63 +8,97 @@ import Core.Scene.Entity.Model;
 import Core.Scene.Scene;
 import org.joml.Vector3f;
 
-public class Game implements IAppLogic {
-    Scene scene;
-    @Override
-    public void cleanup() {
 
-    }
+
+public class Game implements IAppLogic {
+
+    Scene scene;
 
     @Override
     public void init() {
         scene = new Scene();
-        float[] positions = new float[]{
-                // VO
-                -0.5f, 0.5f, 0.5f,
-                // V1
-                -0.5f, -0.5f, 0.5f,
-                // V2
-                0.5f, -0.5f, 0.5f,
-                // V3
-                0.5f, 0.5f, 0.5f,
-                // V4
-                -0.5f, 0.5f, -0.5f,
-                // V5
-                0.5f, 0.5f, -0.5f,
-                // V6
-                -0.5f, -0.5f, -0.5f,
-                // V7
-                0.5f, -0.5f, -0.5f,
-        };
-        float[] colors = new float[]{
-                0.5f, 0.0f, 0.0f,
-                0.0f, 0.5f, 0.0f,
-                0.0f, 0.0f, 0.5f,
-                0.0f, 0.5f, 0.5f,
-                0.5f, 0.0f, 0.0f,
-                0.0f, 0.5f, 0.0f,
-                0.0f, 0.0f, 0.5f,
-                0.0f, 0.5f, 0.5f,
-        };
-        int[] indices = new int[]{
+
+        float[] positions = {
                 // Front face
-                0, 1, 3, 3, 1, 2,
-                // Top Face
-                4, 0, 3, 5, 4, 3,
+                -0.5f,  0.5f,  0.5f,  // Top-left
+                -0.5f, -0.5f,  0.5f,  // Bottom-left
+                0.5f, -0.5f,  0.5f,  // Bottom-right
+                0.5f,  0.5f,  0.5f,  // Top-right
                 // Right face
-                3, 2, 7, 5, 3, 7,
-                // Left face
-                6, 1, 0, 6, 0, 4,
-                // Bottom face
-                2, 1, 6, 2, 6, 7,
+                0.5f,  0.5f,  0.5f,
+                0.5f, -0.5f,  0.5f,
+                0.5f, -0.5f, -0.5f,
+                0.5f,  0.5f, -0.5f,
                 // Back face
-                7, 6, 4, 7, 4, 5,
+                0.5f,  0.5f, -0.5f,
+                0.5f, -0.5f, -0.5f,
+                -0.5f, -0.5f, -0.5f,
+                -0.5f,  0.5f, -0.5f,
+                // Left face
+                -0.5f,  0.5f, -0.5f,
+                -0.5f, -0.5f, -0.5f,
+                -0.5f, -0.5f,  0.5f,
+                -0.5f,  0.5f,  0.5f,
+                // Top face
+                -0.5f,  0.5f, -0.5f,
+                -0.5f,  0.5f,  0.5f,
+                0.5f,  0.5f,  0.5f,
+                0.5f,  0.5f, -0.5f,
+                // Bottom face
+                -0.5f, -0.5f,  0.5f,
+                -0.5f, -0.5f, -0.5f,
+                0.5f, -0.5f, -0.5f,
+                0.5f, -0.5f,  0.5f,
         };
-        Mesh mesh = new Mesh(positions,colors,indices);
-        Model cube = new Model(mesh, new Material());
-        GameObject cubeGameObject = new GameObject(cube);
-        cubeGameObject.transform.position = new Vector3f(0,0,-20);
-        scene.addGameObject(cubeGameObject);
+
+        float[] textCoords = {
+                // Each face uses the same UV mapping
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f,
+                // Repeat for other faces
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f,
+
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f,
+
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f,
+
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f,
+
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f,
+        };
+
+        int[] indices = {
+                0,  1,  3,  3,  1,  2,        // Front
+                4,  5,  7,  7,  5,  6,        // Right
+                8,  9, 11, 11,  9, 10,        // Back
+                12,13,15, 15,13,14,           // Left
+                16,17,19, 19,17,18,           // Top
+                20,21,23, 23,21,22            // Bottom
+        };
+
+        Mesh cubeMesh = new Mesh(positions, textCoords, indices);
+        Model cube = new Model(cubeMesh, new Material());
+        GameObject gameObject = new GameObject(cube);
+        gameObject.transform.position = new Vector3f(0, 0, -5);
+        scene.addGameObject(gameObject);
+
     }
 
     @Override
@@ -80,6 +112,10 @@ public class Game implements IAppLogic {
             gameObject.updateModelMatrix();
             gameObject.update();
         }
+    }
+    @Override
+    public void cleanup() {
+
     }
 
     public Scene getScene() {

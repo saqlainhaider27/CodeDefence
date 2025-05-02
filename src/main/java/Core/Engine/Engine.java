@@ -20,6 +20,7 @@ public class Engine {
     private IAppLogic appLogic;
     private Window window;
     private Render renderer;
+
     private boolean running = false;
     public Engine() {
         window = Launcher.getWindow();

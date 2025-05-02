@@ -31,11 +31,13 @@ public class GameObject {
     public void updateModelMatrix() {
         modelMatrix.translationRotateScale(transform.position, transform.rotation, transform.scale);
     }
+    public void start(){
+
+    }
     public void update(){
         for (BaseComponent c : components.values()){
             c.update();
         }
-
     }
 
     public <T extends BaseComponent> T addComponent(Class<T> componentClass){
@@ -72,4 +74,5 @@ public class GameObject {
     public Model getModel() {
         return model;
     }
+
 }

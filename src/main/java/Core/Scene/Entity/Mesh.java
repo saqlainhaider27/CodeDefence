@@ -27,7 +27,7 @@ public class Mesh {
         int vboId = glGenBuffers();
         vboIdList.add(vboId);
         FloatBuffer positionsBuffer = MemoryUtil.memCallocFloat(positions.length);
-        positionsBuffer.put(0, positions);
+        positionsBuffer.put(0, positions).flip();
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
         glBufferData(GL_ARRAY_BUFFER, positionsBuffer, GL_STATIC_DRAW);
         glEnableVertexAttribArray(0);
@@ -37,7 +37,7 @@ public class Mesh {
         vboId = glGenBuffers();
         vboIdList.add(vboId);
         FloatBuffer textCoordsBuffer = MemoryUtil.memCallocFloat(textCoords.length);
-        textCoordsBuffer.put(0, textCoords);
+        textCoordsBuffer.put(0, textCoords).flip();
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
         glBufferData(GL_ARRAY_BUFFER, textCoordsBuffer, GL_STATIC_DRAW);
         glEnableVertexAttribArray(1);
@@ -47,7 +47,7 @@ public class Mesh {
         vboId = glGenBuffers();
         vboIdList.add(vboId);
         IntBuffer indicesBuffer = MemoryUtil.memCallocInt(indices.length);
-        indicesBuffer.put(0, indices);
+        indicesBuffer.put(0, indices).flip();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboId);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
 
@@ -58,7 +58,6 @@ public class Mesh {
         MemoryUtil.memFree(textCoordsBuffer);
         MemoryUtil.memFree(indicesBuffer);
     }
-
     public void cleanup() {
         // Delete VBOs
         for (int vboId : vboIdList) {
