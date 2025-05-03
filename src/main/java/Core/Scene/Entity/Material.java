@@ -7,7 +7,7 @@ public class Material {
     private Vector4f diffuseColor;
     private Texture texture;
 
-    public static final Vector4f DEFAULT_COLOR = new Vector4f(0.0f, 0.0f, 0.0f, 1.0f);
+    public static final Vector4f DEFAULT_COLOR = new Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
 
     public Material() {
         diffuseColor = DEFAULT_COLOR;

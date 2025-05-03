@@ -1,17 +1,16 @@
 package Core.Render;
 
+import Utils.Generics.HashMap;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.lwjgl.system.MemoryStack;
-
-import java.util.*;
 
 import static org.lwjgl.opengl.GL20.*;
 
 public class UniformsMap {
 
     private int programId;
-    private Map<String, Integer> uniforms;
+    private HashMap<String, Integer> uniforms;
 
     public UniformsMap(int programId) {
         this.programId = programId;
@@ -21,8 +20,7 @@ public class UniformsMap {
     public void createUniform(String uniformName) {
         int uniformLocation = glGetUniformLocation(programId, uniformName);
         if (uniformLocation < 0) {
-            throw new RuntimeException("Could not find uniform [" + uniformName + "] in shader program [" +
-                    programId + "]");
+            throw new RuntimeException("Could not find uniform [" + uniformName + "] in shader program [" + programId + "]");
         }
         uniforms.put(uniformName, uniformLocation);
     }

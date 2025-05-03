@@ -4,9 +4,7 @@ import Core.Scene.Entity.*;
 import Core.Scene.Entity.Texture;
 import Core.Render.ShaderProgram;
 import Core.Render.UniformsMap;
-
-import java.util.ArrayList;
-import java.util.List;
+import Utils.Generics.List;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.*;
@@ -16,7 +14,7 @@ public class SceneRender {
     private UniformsMap uniformsMap;
 
     public SceneRender() {
-        List<ShaderProgram.ShaderModuleData> shaderModuleDataList = new ArrayList<>();
+        List<ShaderProgram.ShaderModuleData> shaderModuleDataList =  new List<>();
         shaderModuleDataList.add(new ShaderProgram.ShaderModuleData("src/main/resources/shaders/scene.vert", GL_VERTEX_SHADER));
         shaderModuleDataList.add(new ShaderProgram.ShaderModuleData("src/main/resources/shaders/scene.frag", GL_FRAGMENT_SHADER));
         shaderProgram = new ShaderProgram(shaderModuleDataList);

@@ -54,19 +54,22 @@ public class Window {
         if (windowHandle == MemoryUtil.NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
+
+        // Resize event
         glfwSetFramebufferSizeCallback(windowHandle, (window, w, h) -> resized(w, h));
 
-
+        // Input CallBack
         glfwSetKeyCallback(windowHandle,input.getKeyCallback());
         glfwSetCursorPosCallback(windowHandle,input.getCursorPosCallback());
         glfwSetMouseButtonCallback(windowHandle,input.getMouseButtonCallback());
 
         glfwMakeContextCurrent(windowHandle);
         glfwShowWindow(windowHandle);
-        glfwSwapInterval(1);
+        glfwSwapInterval(1); // This is used to set turn on vSync
         createCapabilities();
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Set the colour to black on init
 
+        // Generic settings
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_STENCIL_TEST);
         glEnable(GL_CULL_FACE);
@@ -78,6 +81,7 @@ public class Window {
         this.height = height;
     }
 
+    // Display the next scene in queue
     public void update(){
         glfwSwapBuffers(windowHandle);
         glfwPollEvents();

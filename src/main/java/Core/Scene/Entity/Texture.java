@@ -16,9 +16,13 @@ public class Texture {
 
     public Texture(){
         texturePath = DEFAULT_TEXTURE;
-        new Texture(texturePath);
+        extracted(texturePath);
     }
     public Texture(String texturePath) {
+        extracted(texturePath);
+    }
+
+    private void extracted(String texturePath) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             this.texturePath = texturePath;
             IntBuffer w = stack.mallocInt(1);
@@ -38,9 +42,15 @@ public class Texture {
             stbi_image_free(buffer);
         }
     }
+
     public void bind() {
-        glBindTexture(GL_TEXTURE_2D, textureId);
+        if (textureId > 0) {
+            glBindTexture(GL_TEXTURE_2D, textureId);
+        } else {
+            System.err.println("Texture not loaded properly. Texture ID: " + textureId);
+        }
     }
+
 
     public void cleanup() {
         glDeleteTextures(textureId);

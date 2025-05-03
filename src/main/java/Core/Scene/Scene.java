@@ -4,9 +4,7 @@ import Core.Camera;
 import Core.Render.Projection;
 import Core.Scene.Entity.GameObject;
 import Main.Launcher;
-
-import java.util.ArrayList;
-import java.util.List;
+import Utils.Generics.List;
 
 public class Scene {
     private Projection projection;
@@ -14,7 +12,7 @@ public class Scene {
     private Camera camera;
     public Scene() {
         camera = new Camera();
-        gameObjects = new ArrayList<>();
+        gameObjects = new List<>();
         projection = new Projection(Launcher.getWindow().getWidth(), Launcher.getWindow().getHeight());
     }
     public void cleanup() {

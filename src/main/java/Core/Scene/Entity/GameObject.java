@@ -1,14 +1,12 @@
 package Core.Scene.Entity;
 
-import Core.ModelLoader;
 import Core.Scene.Entity.Component.BaseComponent;
+import Utils.Generics.HashMap;
 import org.joml.*;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class GameObject {
-    private Map<Class<? extends BaseComponent>, BaseComponent> components = new HashMap<>();
+    private HashMap<Class<? extends BaseComponent>, BaseComponent> components = new HashMap<>();
 
     private Matrix4f modelMatrix;
     public Transform transform;
@@ -31,6 +29,11 @@ public class GameObject {
     public void updateModelMatrix() {
         modelMatrix.translationRotateScale(transform.position, transform.rotation, transform.scale);
     }
+
+    public Model getModel() {
+        return model;
+    }
+
     public void start(){
 
     }
@@ -71,8 +74,5 @@ public class GameObject {
         }
     }
 
-    public Model getModel() {
-        return model;
-    }
 
 }

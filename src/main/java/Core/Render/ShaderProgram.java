@@ -1,10 +1,9 @@
 package Core.Render;
 
+import Utils.Generics.List;
 import Utils.Utils;
 import org.lwjgl.opengl.GL30;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.lwjgl.opengl.GL20.*;
 
@@ -17,7 +16,7 @@ public class ShaderProgram {
             throw new RuntimeException("Could not create Shader");
         }
 
-        List<Integer> shaderModules = new ArrayList<>();
+        List<Integer> shaderModules = new List<>();
         shaderModuleDataList.forEach(s -> shaderModules.add(createShader(Utils.readFile(s.shaderFile), s.shaderType)));
 
         link(shaderModules);
@@ -63,6 +62,7 @@ public class ShaderProgram {
         }
 
         shaderModules.forEach(s -> glDetachShader(programId, s));
+        validate();
         shaderModules.forEach(GL30::glDeleteShader);
     }
 

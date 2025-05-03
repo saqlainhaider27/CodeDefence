@@ -1,11 +1,16 @@
 package Core.Scene.Entity;
 public class Model {
+
     private Mesh mesh;
     private Material material;
 
     public Model(Mesh mesh, Material material) {
         this.mesh = mesh;
         this.material = material;
+    }
+    public Model(Mesh mesh, Texture texture) {
+        this.mesh = mesh;
+        this.material = new Material(texture);
     }
 
     public Material getMaterial() {

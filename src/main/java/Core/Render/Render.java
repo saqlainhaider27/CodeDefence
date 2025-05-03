@@ -3,6 +3,7 @@ package Core.Render;
 import Core.Scene.Scene;
 import Core.Scene.SceneRender;
 import Core.Engine.IO.Window;
+import Main.Launcher;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11C.glClear;
