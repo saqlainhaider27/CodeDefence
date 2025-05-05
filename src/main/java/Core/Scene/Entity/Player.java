@@ -1,6 +1,8 @@
 package Core.Scene.Entity;
 
 public class Player extends GameObject {
+    private String modelPath;
+
     public Player(Model model) {
         super(model);
     }
@@ -12,6 +14,7 @@ public class Player extends GameObject {
     @Override
     public void start() {
         super.start();
+
     }
 
     @Override

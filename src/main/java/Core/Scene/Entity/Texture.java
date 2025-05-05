@@ -16,13 +16,13 @@ public class Texture {
 
     public Texture(){
         texturePath = DEFAULT_TEXTURE;
-        extracted(texturePath);
+        create(texturePath);
     }
     public Texture(String texturePath) {
-        extracted(texturePath);
+        create(texturePath);
     }
 
-    private void extracted(String texturePath) {
+    private void create(String texturePath) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             this.texturePath = texturePath;
             IntBuffer w = stack.mallocInt(1);

@@ -1,18 +1,8 @@
-#version 330
+#version 330 core
 
-in vec2 outTextCoord;
-
-out vec4 fragColor;
-
-struct Material
-{
-    vec4 diffuse;
-};
-
-uniform sampler2D txtSampler;
-uniform Material material;
+out vec4 FragColor;
 
 void main()
 {
-    fragColor = texture(txtSampler, outTextCoord) + material.diffuse;
+    FragColor = vec4(1.0, 0.5, 0.2, 1.0); // Orange-ish color
 }

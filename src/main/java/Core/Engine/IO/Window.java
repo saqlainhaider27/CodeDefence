@@ -74,6 +74,8 @@ public class Window {
         glEnable(GL_STENCIL_TEST);
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
+        
+
     }
 
     private void resized(int width, int height) {

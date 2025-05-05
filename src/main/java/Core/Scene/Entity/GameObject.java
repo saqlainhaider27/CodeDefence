@@ -5,7 +5,7 @@ import Utils.Generics.HashMap;
 import org.joml.*;
 
 
-public class GameObject {
+public class GameObject implements IBehaviour{
     private HashMap<Class<? extends BaseComponent>, BaseComponent> components = new HashMap<>();
 
     private Matrix4f modelMatrix;

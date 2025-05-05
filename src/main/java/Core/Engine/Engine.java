@@ -10,6 +10,14 @@ import org.lwjgl.glfw.GLFW;
 
 public class Engine {
 
+    public static Engine instance;
+    public static Engine getInstance() {
+        if (instance == null) {
+            instance = new Engine();
+        }
+        return instance;
+    }
+
     public static final long NANOSECONDS = 1000000000;
     public static final long FRAMERATE = 1000;
 
@@ -22,7 +30,7 @@ public class Engine {
     private Render renderer;
 
     private boolean running = false;
-    public Engine() {
+    private Engine() {
         window = Launcher.getWindow();
         appLogic = Launcher.getGame();
         renderer = new Render();

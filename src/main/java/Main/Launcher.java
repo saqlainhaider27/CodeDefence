@@ -12,7 +12,7 @@ public class Launcher {
     public static void main(String[] args){
         game = new Game();
         window = new Window(Consts.TITLE, 1280, 720);
-        new Engine().start();
+        Engine.getInstance().start();
     }
     public static Window getWindow() {
         return window;

@@ -15,6 +15,12 @@
         <lwjgl.version>3.3.6</lwjgl.version>
         <lwjgl.natives>natives-windows</lwjgl.natives>
     </properties>
+    <repositories>
+        <repository>
+            <id>clojars</id>
+            <url>https://repo.clojars.org/</url>
+        </repository>
+    </repositories>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -420,5 +426,11 @@
             <artifactId>joml</artifactId>
             <version>1.10.7</version>
         </dependency>
+        <dependency>
+            <groupId>org.newdawn.slick</groupId>
+            <artifactId>slick-util</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
     </dependencies>
 </project>

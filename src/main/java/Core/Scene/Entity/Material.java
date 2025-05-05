@@ -1,17 +1,28 @@
 package Core.Scene.Entity;
 
 import org.joml.Vector4f;
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.TextureLoader;
+
+import java.io.IOException;
 
 public class Material {
 
     private Vector4f diffuseColor;
     private Texture texture;
 
-    public static final Vector4f DEFAULT_COLOR = new Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
+    public static final Vector4f DEFAULT_COLOR = new Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
 
     public Material() {
         diffuseColor = DEFAULT_COLOR;
         texture = new Texture();
+    }
+    public Material(String path) {
+        try {
+            texture = (Texture) TextureLoader.getTexture(path.split("[.]")[1], Material.class.getResourceAsStream(path), GL11.GL_LINEAR);
+        } catch (IOException e) {
+            System.out.println("Can't load texture at: " + path);
+        }
     }
 
     public Material(Vector4f diffuseColor, Texture texture) {

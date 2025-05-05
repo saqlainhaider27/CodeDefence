@@ -10,6 +10,7 @@ public class Scene {
     private Projection projection;
     private List<GameObject> gameObjects;
     private Camera camera;
+
     public Scene() {
         camera = new Camera();
         gameObjects = new List<>();

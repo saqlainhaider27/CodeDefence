@@ -6,8 +6,8 @@ import Core.Render.ShaderProgram;
 import Core.Render.UniformsMap;
 import Utils.Generics.List;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL30.*;
+import org.lwjgl.opengl.*;
+
 
 public class SceneRender {
     private ShaderProgram shaderProgram;
@@ -15,8 +15,8 @@ public class SceneRender {
 
     public SceneRender() {
         List<ShaderProgram.ShaderModuleData> shaderModuleDataList =  new List<>();
-        shaderModuleDataList.add(new ShaderProgram.ShaderModuleData("src/main/resources/shaders/scene.vert", GL_VERTEX_SHADER));
-        shaderModuleDataList.add(new ShaderProgram.ShaderModuleData("src/main/resources/shaders/scene.frag", GL_FRAGMENT_SHADER));
+        shaderModuleDataList.add(new ShaderProgram.ShaderModuleData("src/main/resources/shaders/scene.vert", GL20.GL_VERTEX_SHADER));
+        shaderModuleDataList.add(new ShaderProgram.ShaderModuleData("src/main/resources/shaders/scene.frag", GL20.GL_FRAGMENT_SHADER));
         shaderProgram = new ShaderProgram(shaderModuleDataList);
         createUniforms();
     }
@@ -39,7 +39,7 @@ public class SceneRender {
 
             // Bind texture
             Texture texture = material.getTexture();
-            glActiveTexture(GL_TEXTURE0);
+            GL13.glActiveTexture(GL13.GL_TEXTURE0);
             texture.bind();
 
             // Set uniforms
@@ -47,14 +47,24 @@ public class SceneRender {
             uniformsMap.setUniform("modelMatrix", gameObject.getModelMatrix());
 
             // Render mesh
-            glBindVertexArray(mesh.getVaoId());
-            glDrawElements(GL_TRIANGLES, mesh.getNumVertices(), GL_UNSIGNED_INT, 0);
+            GL30.glBindVertexArray(mesh.getVaoId());
+            GL20.glEnableVertexAttribArray(0);
+            GL30.glDrawElements(GL20.GL_TRIANGLES, mesh.getNumVertices(), GL11.GL_UNSIGNED_INT, 0);
         }
 
-        glBindVertexArray(0);
+        GL30.glBindVertexArray(0);
+        GL20.glDisableVertexAttribArray(0);
         shaderProgram.unbind();
     }
-
+    public void render(Mesh mesh) {
+        GL30.glBindVertexArray(mesh.getVAO());
+        GL30.glEnableVertexAttribArray(0);
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
+        GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+        GL30.glDisableVertexAttribArray(0);
+        GL30.glBindVertexArray(0);
+    }
     private void createUniforms() {
         uniformsMap = new UniformsMap(shaderProgram.getProgramId());
         uniformsMap.createUniform("projectionMatrix");
