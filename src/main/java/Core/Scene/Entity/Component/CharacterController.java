@@ -1,13 +1,49 @@
 package Core.Scene.Entity.Component;
 
+import Core.Scene.Entity.GameObject;
+import Core.Scene.Entity.Player;
+import org.joml.Vector3f;
+
 public class CharacterController extends BaseComponent{
+    public Vector3f targetPosition;
+    private float stoppingDistance = 0.1f;
+    public Action onReached;
+
+    public CharacterController(GameObject gameObject) {
+        super(gameObject);
+    }
+    public CharacterController(Player player) {
+        super(player);
+    }
+    public CharacterController(){}
     @Override
     public void start() {
-        System.out.println("Start");
+        super.start();
+        targetPosition = transform.position;
     }
 
     @Override
     public void update() {
-        System.out.println("Update");
+        if (isStopped()){
+            if (onReached == null){
+                System.out.println("OnReached Action is null");
+            }else {
+                onReached.perform();
+            }
+
+        }else {
+            moveTo(targetPosition);
+        }
     }
+    private void moveTo(Vector3f position){
+        Vector3f direction = new Vector3f(position).sub(transform.position);
+        Vector3f normalizedDirection = direction.normalize();
+        //System.out.println(normalizedDirection);
+        transform.incrementPosition(normalizedDirection);
+        //System.out.println(transform.position);
+    }
+    private boolean isStopped(){
+        return transform.position.distance(targetPosition) < stoppingDistance;
+    }
+
 }

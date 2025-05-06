@@ -61,6 +61,32 @@ public class GameObject implements IBehaviour{
     public <T extends BaseComponent> T getComponent(Class<T> componentClass){
         return componentClass.cast(components.get(componentClass));
     }
+    public <T extends BaseComponent> T addComponent(Class<T> componentClass, Object... args) {
+        if (hasComponent(componentClass)){
+            System.out.println("Cannot add component. Component is already attached");
+            return getComponent(componentClass);
+        }
+        try {
+            // Get the argument types to match the constructor
+            Class<?>[] argTypes = new Class[args.length];
+            for (int i = 0; i < args.length; i++) {
+                argTypes[i] = args[i].getClass();
+            }
+
+            // Use reflection to find a matching constructor
+            T component = componentClass.getDeclaredConstructor(argTypes).newInstance(args);
+
+            // Add the component to the components map and initialize it
+            components.put(componentClass, component);
+            component.start();
+            component.gameObject = this;  // Set the owning GameObject
+            return component;
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException("No matching constructor found for " + componentClass.getName(), e);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to add component: " + e);
+        }
+    }
     public <T extends BaseComponent> boolean hasComponent(Class<T> componentClass){
         return components.containsKey(componentClass);
     }

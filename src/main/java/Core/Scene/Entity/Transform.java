@@ -25,7 +25,17 @@ public class Transform {
     public void setRotation(float x, float y, float z, float angle) {
         this.rotation.fromAxisAngleRad(x, y, z, angle);
     }
-
+    public void incrementRotation(float x, float y, float z, float angle) {
+        this.rotation.rotateXYZ(x, y, z);
+    }
+    public void incrementPosition(float x, float y, float z) {
+        this.position.x += x;
+        this.position.y += y;
+        this.position.z += z;
+    }
+    public void incrementPosition(Vector3f vector) {
+        incrementPosition(vector.x, vector.y, vector.z);
+    }
     public void setScale(float scale) {
         this.scale = scale;
     }

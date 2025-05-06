@@ -10,7 +10,6 @@ public class Player extends GameObject {
     public Player(Model model, Transform transform) {
         super(model, transform);
     }
-
     @Override
     public void start() {
         super.start();

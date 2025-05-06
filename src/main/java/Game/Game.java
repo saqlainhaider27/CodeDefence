@@ -2,6 +2,7 @@ package Game;
 
 import Core.Engine.IAppLogic;
 import Core.Scene.Entity.*;
+import Core.Scene.Entity.Component.CharacterController;
 import Core.Scene.Scene;
 import org.joml.Vector3f;
 
@@ -23,8 +24,15 @@ public class Game implements IAppLogic {
 
         });
         mesh.create();
-        GameObject gameObject = new GameObject(new Model(mesh,new Material()));
-        scene.addGameObject(gameObject);
+        GameObject player = new Player(new Model(mesh,new Material()));
+        CharacterController playerController = player.addComponent(CharacterController.class, player);
+        playerController.onReached = () -> {
+            // System.out.println("Player reached the target");
+        };
+        // playerController.gameObject = player;
+        playerController.targetPosition = new Vector3f(0,0,-5);
+
+        scene.addGameObject(player);
     }
 
     @Override

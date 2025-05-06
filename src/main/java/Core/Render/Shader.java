@@ -14,7 +14,7 @@ public class Shader {
     public Shader(String vertexPath, String fragmentPath) throws IOException {
         // Read shader source code
         String vertexSource = new String(Files.readAllBytes(Paths.get(vertexPath)));
-        String fragmentSource = new String(Files.readAllBytes(Paths.get(fragmentPath)));\
+        String fragmentSource = new String(Files.readAllBytes(Paths.get(fragmentPath)));
 
         // Compile shaders
         int vertexShaderId = compileShader(vertexSource, GL_VERTEX_SHADER);
