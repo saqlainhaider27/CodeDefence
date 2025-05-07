@@ -16,18 +16,14 @@ public class Shader {
     private final HashMap<String, Integer> uniforms;
 
     public Shader(String vertexPath, String fragmentPath) throws IOException {
-        // Initialize the uniform map
         uniforms = new HashMap<>();
 
-        // Read shader source code
         String vertexSource = new String(Files.readAllBytes(Paths.get(vertexPath)));
         String fragmentSource = new String(Files.readAllBytes(Paths.get(fragmentPath)));
 
-        // Compile shaders
         int vertexShaderId = compileShader(vertexSource, GL_VERTEX_SHADER);
         int fragmentShaderId = compileShader(fragmentSource, GL_FRAGMENT_SHADER);
 
-        // Link program
         programId = glCreateProgram();
         glAttachShader(programId, vertexShaderId);
         glAttachShader(programId, fragmentShaderId);
@@ -42,7 +38,6 @@ public class Shader {
             throw new RuntimeException("Shader program validation failed: " + glGetProgramInfoLog(programId));
         }
 
-        // Cleanup shaders (they are already linked)
         glDetachShader(programId, vertexShaderId);
         glDetachShader(programId, fragmentShaderId);
         glDeleteShader(vertexShaderId);
@@ -94,9 +89,8 @@ public class Shader {
         glUniform4f(uniforms.get(uniformName), vector.x, vector.y, vector.z, vector.w);
     }
     public void setUniformMatrix(String uniformName, Matrix4f matrix) {
-        // Create a FloatBuffer and pass the matrix data
         java.nio.FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
-        matrix.get(matrixBuffer); // Transfer the Matrix4f contents into the buffer
+        matrix.get(matrixBuffer);
         glUniformMatrix4fv(uniforms.get(uniformName), false, matrixBuffer);
     }
     public int getUniform(String uniformName) {

@@ -27,7 +27,6 @@ public class Render {
     public void init() {
         try {
             shader = new Shader("src/main/resources/shaders/scene.vert", "src/main/resources/shaders/scene.frag");
-            // Initialize the required uniforms in the shader
             createUniforms();
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,12 +59,10 @@ public class Render {
     }
 
     public void renderModel(Model model, GameObject gameObject) {
-        // Set the modelMatrix uniform for the specific game object
         Matrix4f modelMatrix = gameObject.getModelMatrix();
         shader.setUniformMatrix("modelMatrix", modelMatrix);
 
-        // Set the texture sampler uniform
-        shader.setUniform("txtSampler", 0); // Texture is bound to texture unit 0
+        shader.setUniform("txtSampler", 0);
 
         // Bind VAO
         GL30.glBindVertexArray(model.getMesh().getVAO());
@@ -74,7 +71,7 @@ public class Render {
 
         // Bind IBO and texture
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, model.getMesh().getIBO());
-        GL13.glActiveTexture(GL13.GL_TEXTURE0); // Activate texture unit 0
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL13.glBindTexture(GL_TEXTURE_2D, model.getMaterial().getTextureID());
 
         // Render the mesh
@@ -88,8 +85,8 @@ public class Render {
     }
 
     public void createUniforms() {
-        shader.createUniform("projectionMatrix"); // For the camera projection
-        shader.createUniform("modelMatrix");      // For the object's model transformation
-        shader.createUniform("txtSampler");       // For the texture sampler
+        shader.createUniform("projectionMatrix");
+        shader.createUniform("modelMatrix");
+        shader.createUniform("txtSampler");
     }
 }
