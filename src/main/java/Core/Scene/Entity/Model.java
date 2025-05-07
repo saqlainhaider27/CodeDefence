@@ -1,4 +1,7 @@
 package Core.Scene.Entity;
+
+import org.joml.Matrix4f;
+
 public class Model {
 
     private Mesh mesh;
@@ -7,11 +10,17 @@ public class Model {
     public Model(Mesh mesh, Material material) {
         this.mesh = mesh;
         this.material = material;
+        create();
     }
-    public Model(Mesh mesh, Texture texture) {
+    public Model(Mesh mesh, String texturePath) {
         this.mesh = mesh;
-        this.material = new Material(texture);
+        this.material = new Material(texturePath);
+        create();
     }
+    public void create(){
+        mesh.create();
+    }
+
 
     public Material getMaterial() {
         return material;
@@ -19,5 +28,8 @@ public class Model {
 
     public Mesh getMesh() {
         return mesh;
+    }
+    public Matrix4f getModelMatrix(){
+        return new Matrix4f();
     }
 }

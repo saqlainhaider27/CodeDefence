@@ -1,8 +1,11 @@
 #version 330 core
 
-out vec4 FragColor;
+in vec2 passTexCoords;      // Texture coordinates from vertex shader
 
-void main()
-{
-    FragColor = vec4(1.0, 0.5, 0.2, 1.0); // Orange-ish color
+uniform sampler2D txtSampler; // Texture sampler
+
+out vec4 fragColor; // Final color output
+
+void main() {
+    fragColor = texture(txtSampler, passTexCoords);
 }

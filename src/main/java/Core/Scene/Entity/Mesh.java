@@ -9,79 +9,33 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL30.*;
 
 public class Mesh {
-
-    private int numVertices;
-    private int vaoId;
-    private List<Integer> vboIdList;
-    private int vao, pbo, ibo;
+    private int vao, pbo, ibo, cbo, tbo;
 
     private float[] vertices;
     private int[] indices;
+    private float[] textureCoords;
 
-
-    public Mesh(float[] positions, float[] textCoords, int[] indices) {
-        numVertices = indices.length;
-        vboIdList = new List<>();
-
-        vaoId = glGenVertexArrays();
-        glBindVertexArray(vaoId);
-
-        // Positions VBO
-        int vboId = glGenBuffers();
-        vboIdList.add(vboId);
-        FloatBuffer positionsBuffer = MemoryUtil.memCallocFloat(positions.length);
-        positionsBuffer.put(positions).flip();
-        glBindBuffer(GL_ARRAY_BUFFER, vboId);
-        glBufferData(GL_ARRAY_BUFFER, positionsBuffer, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        // Texture coordinates VBO
-        vboId = glGenBuffers();
-        vboIdList.add(vboId);
-        FloatBuffer textCoordsBuffer = MemoryUtil.memCallocFloat(textCoords.length);
-        textCoordsBuffer.put(textCoords).flip();
-        glBindBuffer(GL_ARRAY_BUFFER, vboId);
-        glBufferData(GL_ARRAY_BUFFER, textCoordsBuffer, GL_STATIC_DRAW);
-        glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        // Indices VBO
-        vboId = glGenBuffers();
-        vboIdList.add(vboId);
-        IntBuffer indicesBuffer = MemoryUtil.memCallocInt(indices.length);
-        indicesBuffer.put(indices).flip();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboId);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-        //glBindVertexArray(0);
-        MemoryUtil.memFree(positionsBuffer);
-        MemoryUtil.memFree(textCoordsBuffer);
-        MemoryUtil.memFree(indicesBuffer);
-    }
-
-    public Mesh(float[] positions, int[] indices) {
+    public Mesh(float[] positions, float[] textureCoords, int[] indices) {
         this.vertices = positions;
         this.indices = indices;
+        this.textureCoords = textureCoords;
     }
 
     public void create() {
         vao = GL30.glGenVertexArrays();
         GL30.glBindVertexArray(vao);
 
-        FloatBuffer positionBuffer = MemoryUtil.memAllocFloat(vertices.length * 3);
+        FloatBuffer positionBuffer = MemoryUtil.memAllocFloat(vertices.length);
         positionBuffer.put(vertices).flip();
 
-        pbo = GL15.glGenBuffers();
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, pbo);
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, positionBuffer, GL15.GL_STATIC_DRAW);
-        GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+        pbo = storeData(positionBuffer, 0, 3);
+
+        FloatBuffer textureBuffer = MemoryUtil.memAllocFloat(textureCoords.length);
+        textureBuffer.put(textureCoords).flip();
+
+        tbo = storeData(textureBuffer, 1, 2);
 
         IntBuffer indicesBuffer = MemoryUtil.memAllocInt(indices.length);
         indicesBuffer.put(indices).flip();
@@ -92,21 +46,26 @@ public class Mesh {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
+    private int storeData(FloatBuffer buffer, int index, int size) {
+        int bufferID = GL15.glGenBuffers();
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, bufferID);
+        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+        GL20.glVertexAttribPointer(index, size, GL11.GL_FLOAT, false, 0, 0);
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+        return bufferID;
+    }
+
     public void cleanup() {
-        // Delete VBOs
-        for (int vboId : vboIdList) {
-            glDeleteBuffers(vboId);
-        }
-        // Delete VAO
-        glDeleteVertexArrays(vaoId);
+        GL15.glDeleteBuffers(pbo);
+        GL15.glDeleteBuffers(cbo);
+        GL15.glDeleteBuffers(ibo);
+        GL15.glDeleteBuffers(tbo);
+        GL30.glDeleteVertexArrays(vao);
     }
 
-    public int getNumVertices() {
-        return numVertices;
-    }
 
-    public int getVaoId() {
-        return vaoId;
+    public int[] getIndices() {
+        return indices;
     }
 
     public int getVAO() {
@@ -117,13 +76,15 @@ public class Mesh {
         return pbo;
     }
 
+    public int getCBO() {
+        return cbo;
+    }
+
+    public int getTBO() {
+        return tbo;
+    }
+
     public int getIBO() {
         return ibo;
-    }
-    public float[] getVertices() {
-        return vertices;
-    }
-    public int[] getIndices() {
-        return indices;
     }
 }

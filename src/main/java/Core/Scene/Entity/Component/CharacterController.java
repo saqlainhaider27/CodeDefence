@@ -26,7 +26,7 @@ public class CharacterController extends BaseComponent{
     public void update() {
         if (isStopped()){
             if (onReached == null){
-                System.out.println("OnReached Action is null");
+                //System.out.println("OnReached Action is null");
             }else {
                 onReached.perform();
             }

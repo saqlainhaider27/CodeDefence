@@ -22,6 +22,9 @@ public class Scene {
     public void addGameObject(GameObject gameObject) {
         gameObjects.add(gameObject);
     }
+    public void removeGameObject(GameObject gameObject) {
+        gameObjects.remove(gameObject);
+    }
     public List<GameObject> getGameObjects(){
         return gameObjects;
     }
@@ -31,5 +34,8 @@ public class Scene {
 
     public void resize(int width, int height) {
         projection.updateProjMatrix(width, height);
+    }
+    public Camera getCamera() {
+        return camera;
     }
 }

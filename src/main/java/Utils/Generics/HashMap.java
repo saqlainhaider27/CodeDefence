@@ -106,4 +106,9 @@ public class HashMap<KData, VData> {
             }
         }
     }
+    public VData getOrDefault(KData key, VData defaultValue) {
+        VData value = get(key);
+        return (value != null) ? value : defaultValue;
+    }
+
 }
