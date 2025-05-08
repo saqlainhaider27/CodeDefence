@@ -8,7 +8,6 @@ public class CharacterController extends BaseComponent{
     public Vector3f targetPosition;
     private float stoppingDistance = 0.1f;
     public Action onReached;
-
     public CharacterController(GameObject gameObject) {
         super(gameObject);
     }
@@ -36,11 +35,10 @@ public class CharacterController extends BaseComponent{
         }
     }
     private void moveTo(Vector3f position){
-        Vector3f direction = new Vector3f(position).sub(transform.position);
-        Vector3f normalizedDirection = direction.normalize();
-        //System.out.println(normalizedDirection);
-        transform.incrementPosition(normalizedDirection);
-        //System.out.println(transform.position);
+        // Vector3f direction = new Vector3f(position).sub(transform.position);
+        // Vector3f normalizedDirection = direction.normalize();
+        // transform.incrementPosition(normalizedDirection);
+        transform.position = new Vector3f(transform.position).lerp(position, 0.1f);
     }
     private boolean isStopped(){
         return transform.position.distance(targetPosition) < stoppingDistance;
