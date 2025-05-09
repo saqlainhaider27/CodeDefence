@@ -6,12 +6,6 @@ public class Model {
 
     private Mesh mesh;
     private Material material;
-
-    public Model(Mesh mesh, Material material) {
-        this.mesh = mesh;
-        this.material = material;
-        create();
-    }
     public Model(Mesh mesh, String texturePath) {
         this.mesh = mesh;
         this.material = new Material(texturePath);

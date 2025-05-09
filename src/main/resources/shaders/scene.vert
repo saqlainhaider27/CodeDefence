@@ -5,10 +5,11 @@ layout(location = 1) in vec2 texCoords;
 
 uniform mat4 projectionMatrix; // Projection matrix
 uniform mat4 modelMatrix;      // Model matrix
+uniform mat4 camera; // Camera matrix
 
 out vec2 passTexCoords; // Pass texture coordinates to fragment shader
 
 void main() {
-    gl_Position = projectionMatrix * modelMatrix * vec4(position, 1.0);
+    gl_Position = projectionMatrix * camera * modelMatrix * vec4(position, 1.0);
     passTexCoords = texCoords;
 }

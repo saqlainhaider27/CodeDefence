@@ -1,6 +1,7 @@
 package Utils.Generics;
 
 import java.util.Arrays;
+import java.util.stream.DoubleStream;
 
 public class List<T> implements Iterable<T> {
 
@@ -15,6 +16,11 @@ public class List<T> implements Iterable<T> {
     public void add(T item) {
         ensureCapacity();
         elements[size++] = item;
+    }
+    public void add(T ... item){
+        for (int i = 0; i < item.length; i++) {
+            add(item[i]);
+        }
     }
 
     public T get(int index) {
@@ -97,5 +103,16 @@ public class List<T> implements Iterable<T> {
             }
         };
     }
-
+    public T[] toArray() {
+        return Arrays.copyOf(elements, size);
+    }
+    public <T> T[] toArray(T[] a) {
+        if (a.length < size)
+            // Make a new array of a's runtime type, but my contents:
+            return (T[]) Arrays.copyOf(elements, size, a.getClass());
+        System.arraycopy(elements, 0, a, 0, size);
+        if (a.length > size)
+            a[size] = null;
+        return a;
+    }
 }

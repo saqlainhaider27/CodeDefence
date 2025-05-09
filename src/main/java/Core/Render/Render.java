@@ -42,13 +42,14 @@ public class Render {
     public void render(Window window, Scene scene) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glViewport(0, 0, window.getWidth(), window.getHeight());
+        scene.resize(window.getWidth(), window.getHeight()); // Should not call this every render TODO: Make it only be called when resized
 
         // Bind the shader
         shader.bind();
 
         // Set the projection matrix uniform
         shader.setUniformMatrix("projectionMatrix", scene.getProjection().getProjectionMatrix());
-
+        shader.setUniformMatrix("camera", scene.getCamera().getViewMatrix());
         // Render each GameObject
         for (GameObject gameObject : scene.getGameObjects()) {
             renderModel(gameObject.getModel(), gameObject);
@@ -88,5 +89,6 @@ public class Render {
         shader.createUniform("projectionMatrix");
         shader.createUniform("modelMatrix");
         shader.createUniform("txtSampler");
+        shader.createUniform("camera");
     }
 }

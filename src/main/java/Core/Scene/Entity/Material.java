@@ -13,7 +13,7 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 public class Material {
 
     private int textureID;
-    private String DEFAULT_TEXTURE = "src/main/resources/models/default/default_texture.png";
+    public static String DEFAULT_TEXTURE = "src/main/resources/models/default/default_texture.png";
 
     public static final Vector4f DEFAULT_COLOR = new Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
 
