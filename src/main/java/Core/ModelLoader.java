@@ -11,77 +11,109 @@ import java.nio.IntBuffer;
 
 public class ModelLoader {
 
-    public static Model loadModel(String path){
+    public static Model loadModel(String path) {
         return loadModel(path, Material.DEFAULT_TEXTURE);
     }
+
     public static Model loadModel(String modelPath, String texturePath) {
         AIScene aiScene = Assimp.aiImportFile(modelPath, Assimp.aiProcess_Triangulate | Assimp.aiProcess_GenSmoothNormals);
         if (aiScene == null) {
             throw new RuntimeException("Could not load model: " + modelPath);
         }
+
+        // Retrieve the number of meshes in the model
+        int numMeshes = aiScene.mNumMeshes();
         PointerBuffer buffer = aiScene.mMeshes();
-        for (int i = 0; i < buffer.limit(); i++) {
-            AIMesh aiMesh = AIMesh.create(buffer.get(i));
-            processMesh(aiMesh);
+
+        // Lists to store combined data for the single Mesh
+        List<Float> combinedVertices = new List<>();
+        List<Float> combinedTexCoords = new List<>();
+        List<Integer> combinedIndices = new List<>();
+
+        int vertexOffset = 0;
+
+        for (int z = 0; z < numMeshes; z++) {
+            // Extract mesh and process it
+            AIMesh aiMesh = AIMesh.create(buffer.get(z));
+
+            List<Float> vertices = new List<>();
+            List<Float> textCoords = new List<>();
+            List<Integer> indices = new List<>();
+
+            processMesh(aiMesh, vertices, textCoords, indices);
+
+            // Add vertices and texture coordinates to combined lists
+            combinedVertices.add(vertices);
+            combinedTexCoords.add(textCoords);
+
+            // Adjust indices to account for the current vertex offset and add to combined list
+            for (int index : indices) {
+                combinedIndices.add(index + vertexOffset);
+            }
+
+            // Update vertex offset
+            vertexOffset += vertices.size() / 3; // Each vertex has 3 components (x, y, z)
         }
-        float[] v = new float[vertices.size()];
-        float[] t = new float[textCoords.size()];
-        int[] i = new int[indices.size()];
-        for (int j = 0; j < vertices.size(); j++) {
-            v[j] = vertices.get(j);
+
+        // Convert combined data to arrays
+        float[] finalVertices = new float[combinedVertices.size()];
+        float[] finalTexCoords = new float[combinedTexCoords.size()];
+        int[] finalIndices = new int[combinedIndices.size()];
+
+        for (int i = 0; i < combinedVertices.size(); i++) {
+            finalVertices[i] = combinedVertices.get(i);
         }
-        for (int j = 0; j < textCoords.size(); j++) {
-            t[j] = textCoords.get(j);
+        for (int i = 0; i < combinedTexCoords.size(); i++) {
+            finalTexCoords[i] = combinedTexCoords.get(i);
         }
-        for (int j = 0; j < indices.size(); j++) {
-            i[j] = indices.get(j);
+        for (int i = 0; i < combinedIndices.size(); i++) {
+            finalIndices[i] = combinedIndices.get(i);
         }
-        Mesh mesh = new Mesh(v, t, i);
-        return new Model(mesh, texturePath);
+        // Create a single Mesh with combined data and pass it to the Model
+        Mesh combinedMesh = new Mesh(finalVertices, finalTexCoords, finalIndices);
+        return new Model(combinedMesh, texturePath);
     }
-    private static List<Float> vertices = new List<>();
-    private static List<Float> textCoords = new List<>();
-    private static List<Integer> indices = new List<>();
-    private static void processMesh(AIMesh aiMesh) {
+
+    private static void processMesh(AIMesh aiMesh, List<Float> vertices, List<Float> textCoords, List<Integer> indices) {
         vertices.add(processVertices(aiMesh));
         textCoords.add(processTextCoords(aiMesh));
         indices.add(processIndices(aiMesh));
 
-        // Texture coordinates may not have been populated. We need at least the empty slots
-//        if (textCoords.length == 0) {
-//            int numElements = (vertices.length / 3) * 2;
-//            textCoords = new float[numElements];
-//        }
+        // Handle missing texture coordinates
+        if (textCoords.isEmpty()) {
+            int numElements = (vertices.size() / 3) * 2; // Assuming 2 texture coords per vertex
+            for (int i = 0; i < numElements; i++) {
+                textCoords.add(0f); // Add placeholder data
+            }
+        }
     }
 
-    private static Float[] processVertices(AIMesh aiMesh) {
+    private static List<Float> processVertices(AIMesh aiMesh) {
+        List<Float> data = new List<>();
         AIVector3D.Buffer buffer = aiMesh.mVertices();
-        Float[] data = new Float[buffer.remaining() * 3];
-        int pos = 0;
         while (buffer.remaining() > 0) {
-            AIVector3D textCoord = buffer.get();
-            data[pos++] = textCoord.x();
-            data[pos++] = textCoord.y();
-            data[pos++] = textCoord.z();
+            AIVector3D vertex = buffer.get();
+            data.add(vertex.x());
+            data.add(vertex.y());
+            data.add(vertex.z());
         }
         return data;
     }
 
-    private static Float[] processTextCoords(AIMesh aiMesh) {
+    private static List<Float> processTextCoords(AIMesh aiMesh) {
+        List<Float> data = new List<>();
         AIVector3D.Buffer buffer = aiMesh.mTextureCoords(0);
-        if (buffer == null) {
-            return new Float[]{};
-        }
-        Float[] data = new Float[buffer.remaining() * 2];
-        int pos = 0;
-        while (buffer.remaining() > 0) {
-            AIVector3D textCoord = buffer.get();
-            data[pos++] = textCoord.x();
-            data[pos++] = 1 - textCoord.y();
+        if (buffer != null) {
+            while (buffer.remaining() > 0) {
+                AIVector3D texCoord = buffer.get();
+                data.add(texCoord.x());
+                data.add(1 - texCoord.y()); // Flip Y coordinate
+            }
         }
         return data;
     }
-    private static Integer[] processIndices(AIMesh aiMesh) {
+
+    private static List<Integer> processIndices(AIMesh aiMesh) {
         List<Integer> indices = new List<>();
         int numFaces = aiMesh.mNumFaces();
         AIFace.Buffer aiFaces = aiMesh.mFaces();
@@ -92,13 +124,6 @@ public class ModelLoader {
                 indices.add(buffer.get());
             }
         }
-        Integer[] ind = new Integer[indices.size()];
-        for (int i = 0; i < indices.size(); i++) {
-            ind[i] = indices.get(i);
-        }
-        return ind;
-        //return indices.stream().mapToInt(Integer::intValue).toArray();
+        return indices;
     }
-
-
 }

@@ -22,6 +22,11 @@ public class List<T> implements Iterable<T> {
             add(item[i]);
         }
     }
+    public void add(List<T> list) {
+        for (int i = 0; i < list.size(); i++) {
+            add(list.get(i));
+        }
+    }
 
     public T get(int index) {
         checkIndex(index);
@@ -114,5 +119,8 @@ public class List<T> implements Iterable<T> {
         if (a.length > size)
             a[size] = null;
         return a;
+    }
+    public boolean isEmpty() {
+        return size == 0;
     }
 }

@@ -1,9 +1,9 @@
 package Core.Scene.Entity;
 
+import Utils.Generics.List;
 import org.joml.Matrix4f;
 
 public class Model {
-
     private Mesh mesh;
     private Material material;
     public Model(Mesh mesh, String texturePath) {

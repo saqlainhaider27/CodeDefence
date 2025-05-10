@@ -15,9 +15,10 @@ public class Game implements IAppLogic {
     @Override
     public void init() {
         scene = new Scene();
-        Model model = ModelLoader.loadModel("src/main/resources/models/astronaut/astronaut.fbx");
+        Model model = ModelLoader.loadModel("src/main/resources/models/turret/double_turret.glb");
         GameObject gameObject = new GameObject(model);
         gameObject.transform.position = new Vector3f(0, 0, -5);
+        gameObject.transform.scale = 10f;
         scene.addGameObject(gameObject);
 
         Model cube = ModelLoader.loadModel("src/main/resources/models/cube/cube.fbx");
