@@ -6,13 +6,11 @@ import Core.Scene.Entity.GameObject;
 import Core.Scene.Entity.Material;
 import Core.Scene.Entity.Model;
 import Core.Scene.Entity.Transform;
-import Utils.Generics.List;
 import org.joml.Vector3f;
 
 public class Turret extends GameObject {
     public static String MODEL = "src/main/resources/models/turret/turret.fbx";
     public static String TEXTURE = Material.DEFAULT_TEXTURE;
-    public List<Bullet> bullets = new List<>();
 
     public Shooter shooter;
     public Turret(Model model) {
@@ -29,6 +27,9 @@ public class Turret extends GameObject {
         shooter.startShoot = true;
         transform.position = new Vector3f(0, 0, -10);
         transform.setEulerRotation(30, 0, 0);
+        shooter.onShoot = () -> {
+            scene.addGameObject(new Bullet(ModelLoader.loadModel(Bullet.MODEL, Bullet.TEXTURE)));
+        };
     }
     @Override
     public void update(){

@@ -1,9 +1,11 @@
 package Game;
 
+import Core.Scene.Entity.Component.CharacterController;
 import Core.Scene.Entity.GameObject;
 import Core.Scene.Entity.Material;
 import Core.Scene.Entity.Model;
 import Core.Scene.Entity.Transform;
+import org.joml.Vector3f;
 
 public class Bullet extends GameObject {
     public static String MODEL = "src/main/resources/models/astronaut/astronaut.fbx";
@@ -19,11 +21,14 @@ public class Bullet extends GameObject {
 
     @Override
     public void start() {
-
+        transform.position = new Vector3f(0, 0, -10);
+        CharacterController bulletController = addComponent(CharacterController.class);
+        bulletController.targetPosition = new Vector3f(10, 10, 10);
+        bulletController.speed = 5;
     }
 
     @Override
     public void update() {
-        transform.incrementPosition(0.1f, 0, 0);
+
     }
 }

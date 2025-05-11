@@ -1,6 +1,8 @@
 package Core.Scene.Entity;
 
 import Core.Scene.Entity.Component.BaseComponent;
+import Core.Scene.Scene;
+import Main.Launcher;
 import Utils.Generics.HashMap;
 import org.joml.*;
 
@@ -11,17 +13,20 @@ public abstract class GameObject implements IBehaviour{
     private Matrix4f modelMatrix;
     public Transform transform;
     private Model model;
+    public Scene scene;
 
     public GameObject(Model model){
         this.model = model;
         this.transform = new Transform();
         modelMatrix = new Matrix4f();
+        scene = Launcher.getGame().getScene();
         start();
     }
     public GameObject(Model model, Transform transform){
         this.model = model;
         this.transform = transform;
         modelMatrix = new Matrix4f();
+        scene = Launcher.getGame().getScene();
         start();
     }
 

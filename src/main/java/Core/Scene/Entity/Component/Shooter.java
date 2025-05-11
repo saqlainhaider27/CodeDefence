@@ -25,8 +25,6 @@ public class Shooter extends BaseComponent{
     private void shootAt(Vector3f targetPosition){
         float currentTime = System.nanoTime();
         if(currentTime > lastTime + nanoTime * shootDelay){
-            // Shoot
-            System.out.println("Shoot");
             if (onShoot != null){
                 onShoot.perform();
             }

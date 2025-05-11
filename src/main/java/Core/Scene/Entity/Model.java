@@ -14,8 +14,6 @@ public class Model {
     public void create(){
         mesh.create();
     }
-
-
     public Material getMaterial() {
         return material;
     }
