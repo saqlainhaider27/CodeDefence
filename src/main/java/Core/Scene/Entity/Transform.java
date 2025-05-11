@@ -25,7 +25,7 @@ public class Transform {
     public void setRotation(float x, float y, float z, float angle) {
         this.rotation.fromAxisAngleRad(x, y, z, angle);
     }
-    public void incrementRotation(float x, float y, float z, float angle) {
+    public void incrementRotation(float x, float y, float z) {
         this.rotation.rotateXYZ(x, y, z);
     }
     public void incrementPosition(float x, float y, float z) {
@@ -38,5 +38,9 @@ public class Transform {
     }
     public void setScale(float scale) {
         this.scale = scale;
+    }
+    public void setEulerRotation(float x, float y, float z) {
+        this.rotation.identity();
+        this.rotation.rotateXYZ(x, y, z);
     }
 }

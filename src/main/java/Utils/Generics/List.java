@@ -1,6 +1,8 @@
 package Utils.Generics;
 
 import java.util.Arrays;
+import java.lang.reflect.Array;
+
 import java.util.stream.DoubleStream;
 
 public class List<T> implements Iterable<T> {
@@ -111,15 +113,31 @@ public class List<T> implements Iterable<T> {
     public T[] toArray() {
         return Arrays.copyOf(elements, size);
     }
-    public <T> T[] toArray(T[] a) {
-        if (a.length < size)
-            // Make a new array of a's runtime type, but my contents:
-            return (T[]) Arrays.copyOf(elements, size, a.getClass());
-        System.arraycopy(elements, 0, a, 0, size);
-        if (a.length > size)
-            a[size] = null;
-        return a;
+
+    @SuppressWarnings("unchecked")
+    public <A> A toArray(A a) {
+        Class<?> arrayClass = a.getClass();
+        if (!arrayClass.isArray()) {
+            throw new IllegalArgumentException("Provided argument is not an array");
+        }
+        Class<?> componentType = arrayClass.getComponentType();
+        if (componentType.isPrimitive()) {
+            Object primitiveArray = Array.newInstance(componentType, size);
+            for (int i = 0; i < size; i++) {
+                Array.set(primitiveArray, i, elements[i]);
+            }
+            return (A) primitiveArray;
+        }
+        if (Array.getLength(a) < size) {
+            return (A) Arrays.copyOf(elements, size);
+        } else {
+            System.arraycopy(elements, 0, a, 0, size);
+            if (Array.getLength(a) > size)
+                Array.set(a, size, null);
+            return a;
+        }
     }
+
     public boolean isEmpty() {
         return size == 0;
     }

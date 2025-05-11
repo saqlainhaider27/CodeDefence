@@ -8,12 +8,6 @@ public abstract class BaseComponent implements IBehaviour {
     public GameObject gameObject;
     public Transform transform;
 
-    public BaseComponent(GameObject gameObject) {
-        this.gameObject = gameObject;
-    }
-    public BaseComponent(){}
-
-
     public void start(){
         transform = gameObject.transform;
     }

@@ -3,85 +3,52 @@ import org.joml.*;
 
 public class Camera {
 
-    private Vector3f direction;
     private Vector3f position;
-    private Vector3f right;
-    private Vector2f rotation;
-    private Vector3f up;
+    private Quaternionf rotation;
     private Matrix4f viewMatrix;
 
     public Camera() {
-        direction = new Vector3f();
-        right = new Vector3f();
-        up = new Vector3f();
-        position = new Vector3f();
         viewMatrix = new Matrix4f();
-        rotation = new Vector2f();
+        position = new Vector3f(0, 0, 0);
+        rotation = new Quaternionf();
     }
-
-    public void addRotation(float x, float y) {
-        rotation.add(x, y);
-        recalculate();
-    }
-
-    public Vector3f getPosition() {
-        return position;
-    }
-
     public Matrix4f getViewMatrix() {
         return viewMatrix;
     }
-
-    public void moveBackwards(float inc) {
-        viewMatrix.positiveZ(direction).negate().mul(inc);
-        position.sub(direction);
-        recalculate();
+    public Vector3f getPosition() {
+        return position;
     }
-
-    public void moveDown(float inc) {
-        viewMatrix.positiveY(up).mul(inc);
-        position.sub(up);
-        recalculate();
+    public void setPosition(Vector3f position) {
+        this.position = position;
+        recalculateViewMatrix();
     }
-
-    public void moveForward(float inc) {
-        viewMatrix.positiveZ(direction).negate().mul(inc);
-        position.add(direction);
-        recalculate();
-    }
-
-    public void moveLeft(float inc) {
-        viewMatrix.positiveX(right).mul(inc);
-        position.sub(right);
-        recalculate();
-    }
-
-    public void moveRight(float inc) {
-        viewMatrix.positiveX(right).mul(inc);
-        position.add(right);
-        recalculate();
-    }
-
-    public void moveUp(float inc) {
-        viewMatrix.positiveY(up).mul(inc);
-        position.add(up);
-        recalculate();
-    }
-
-    private void recalculate() {
-        viewMatrix.identity()
-                .rotateX(rotation.x)
-                .rotateY(rotation.y)
-                .translate(-position.x, -position.y, -position.z);
-    }
-
     public void setPosition(float x, float y, float z) {
-        position.set(x, y, z);
-        recalculate();
+        this.position.x = x;
+        this.position.y = y;
+        this.position.z = z;
+        recalculateViewMatrix();
     }
+    public void recalculateViewMatrix() {
+        viewMatrix.identity().rotate(rotation).translate(-position.x, -position.y, -position.z);
+    }
+    public Quaternionf getRotation() {
+        return rotation;
+    }
+    public void setRotation(Quaternionf rotation) {
+        this.rotation = rotation;
+        recalculateViewMatrix();
+    }
+    public void setRotation(float x, float y, float z, float angle) {
+        this.rotation.fromAxisAngleRad(x, y, z, angle);
+        recalculateViewMatrix();
+    }
+    public void setEulerRotation(float x, float y, float z) {
+        this.rotation.identity();
+        this.rotation.rotateXYZ(x, y, z);
+        recalculateViewMatrix();
+    }
+    public void lookAt(Vector3f target){
 
-    public void setRotation(float x, float y) {
-        rotation.set(x, y);
-        recalculate();
+        recalculateViewMatrix();
     }
 }

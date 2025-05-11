@@ -5,7 +5,7 @@ import Utils.Generics.HashMap;
 import org.joml.*;
 
 
-public class GameObject implements IBehaviour{
+public abstract class GameObject implements IBehaviour{
     private HashMap<Class<? extends BaseComponent>, BaseComponent> components = new HashMap<>();
 
     private Matrix4f modelMatrix;
@@ -16,11 +16,13 @@ public class GameObject implements IBehaviour{
         this.model = model;
         this.transform = new Transform();
         modelMatrix = new Matrix4f();
+        start();
     }
     public GameObject(Model model, Transform transform){
         this.model = model;
         this.transform = transform;
         modelMatrix = new Matrix4f();
+        start();
     }
 
     public Matrix4f getModelMatrix() {
@@ -33,15 +35,14 @@ public class GameObject implements IBehaviour{
     public Model getModel() {
         return model;
     }
-
-    public void start(){
-
-    }
-    public void update(){
+    public void loop(){
         for (BaseComponent c : components.values()){
             c.update();
         }
+        update();
     }
+    public abstract void start();
+    public abstract void update();
 
     public <T extends BaseComponent> T addComponent(Class<T> componentClass){
         if (hasComponent(componentClass)){
@@ -51,8 +52,8 @@ public class GameObject implements IBehaviour{
         try{
             T component = componentClass.getDeclaredConstructor().newInstance();
             components.put(componentClass, component);
-            component.start();
             component.gameObject = this;
+            component.start();
             return component;
         } catch (Exception e) {
             throw new RuntimeException(" Failed to add component: " + e);
@@ -67,19 +68,16 @@ public class GameObject implements IBehaviour{
             return getComponent(componentClass);
         }
         try {
-            // Get the argument types to match the constructor
             Class<?>[] argTypes = new Class[args.length];
             for (int i = 0; i < args.length; i++) {
                 argTypes[i] = args[i].getClass();
             }
 
-            // Use reflection to find a matching constructor
             T component = componentClass.getDeclaredConstructor(argTypes).newInstance(args);
 
-            // Add the component to the components map and initialize it
             components.put(componentClass, component);
+            component.gameObject = this;
             component.start();
-            component.gameObject = this;  // Set the owning GameObject
             return component;
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("No matching constructor found for " + componentClass.getName(), e);
@@ -98,6 +96,9 @@ public class GameObject implements IBehaviour{
         }else {
             throw new RuntimeException("Cannot remove component: Component not attached");
         }
+    }
+    public void cleanup(){
+        model.cleanup();
     }
 
 

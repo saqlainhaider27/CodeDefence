@@ -11,7 +11,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 public class Mesh {
-    private int vao, pbo, ibo, cbo, tbo;
+    private int vao, pbo, ibo, tbo;
 
     private float[] vertices;
     private int[] indices;
@@ -57,7 +57,6 @@ public class Mesh {
 
     public void cleanup() {
         GL15.glDeleteBuffers(pbo);
-        GL15.glDeleteBuffers(cbo);
         GL15.glDeleteBuffers(ibo);
         GL15.glDeleteBuffers(tbo);
         GL30.glDeleteVertexArrays(vao);
@@ -70,18 +69,6 @@ public class Mesh {
 
     public int getVAO() {
         return vao;
-    }
-
-    public int getPBO() {
-        return pbo;
-    }
-
-    public int getCBO() {
-        return cbo;
-    }
-
-    public int getTBO() {
-        return tbo;
     }
 
     public int getIBO() {

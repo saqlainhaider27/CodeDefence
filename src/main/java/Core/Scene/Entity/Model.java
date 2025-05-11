@@ -26,4 +26,9 @@ public class Model {
     public Matrix4f getModelMatrix(){
         return new Matrix4f();
     }
+
+    public void cleanup() {
+        mesh.cleanup();
+        material.cleanup();
+    }
 }

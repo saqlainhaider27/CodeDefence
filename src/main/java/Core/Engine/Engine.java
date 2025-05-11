@@ -89,8 +89,7 @@ public class Engine {
     }
     private void update(){
         window.update();
-        appLogic.input();
-        appLogic.update();
+        appLogic.loop();
     }
     private void render(){
         renderer.render(window, Launcher.getGame().getScene());
@@ -99,9 +98,6 @@ public class Engine {
         window.cleanup();
         appLogic.cleanup();
         renderer.cleanup();
-    }
-    private void resize() {
-        Launcher.getGame().getScene().resize(window.getWidth(), window.getHeight());
     }
 
 }
