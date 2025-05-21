@@ -426,11 +426,6 @@
             <artifactId>joml</artifactId>
             <version>1.10.7</version>
         </dependency>
-        <dependency>
-            <groupId>org.newdawn.slick</groupId>
-            <artifactId>slick-util</artifactId>
-            <version>1.0.0</version>
-        </dependency>
 
     </dependencies>
 </project>
