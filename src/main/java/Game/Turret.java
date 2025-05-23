@@ -25,7 +25,8 @@ public class Turret extends GameObject {
     public void start() {
         shooter = addComponent(Shooter.class);
         shooter.startShoot = true;
-        transform.position = new Vector3f(0, 0, -10);
+        shooter.shootDelay = 10f;
+        //transform.position = new Vector3f(0, 0, -10);
         transform.setEulerRotation(30, 0, 0);
         shooter.onShoot = () -> {
             scene.addGameObject(new Bullet(ModelLoader.loadModel(Bullet.MODEL, Bullet.TEXTURE)));

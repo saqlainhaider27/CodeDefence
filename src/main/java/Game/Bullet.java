@@ -25,6 +25,9 @@ public class Bullet extends GameObject {
         CharacterController bulletController = addComponent(CharacterController.class);
         bulletController.targetPosition = new Vector3f(10, 10, 10);
         bulletController.speed = 5;
+        bulletController.onReached = () -> {
+            scene.removeGameObject(this);
+        };
     }
 
     @Override
