@@ -36,7 +36,6 @@ public class CharacterController extends BaseComponent{
 
         float moveStep = Math.min(speed * 0.1f, distance);
         direction.mul(moveStep);
-        System.out.println("Move");
         transform.position.add(direction);
     }
     private boolean isStopped(){

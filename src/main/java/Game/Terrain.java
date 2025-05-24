@@ -6,7 +6,7 @@ import Core.Scene.Entity.Transform;
 
 public class Terrain extends GameObject {
     public static final String MODEL = "src/main/resources/models/ground/ground.fbx";
-    public static final String TEXTURE = "src/main/resources/models/ground/ground.jpg";
+    public static final String TEXTURE = "src/main/resources/models/ground/ground.png";
     public Terrain(Model model) {
         super(model);
     }
@@ -17,8 +17,8 @@ public class Terrain extends GameObject {
 
     @Override
     public void start() {
-        transform.setEulerRotation(-90,0,0);
-        transform.setPosition(0,-1.5f,0);
+        transform.scale = 2f;
+        transform.setPosition(0,-0.8f,-10);
     }
 
     @Override
