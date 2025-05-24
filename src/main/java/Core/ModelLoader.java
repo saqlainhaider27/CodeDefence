@@ -12,7 +12,7 @@ import java.nio.IntBuffer;
 public class ModelLoader {
 
     public static Model loadModel(String path) {
-        return loadModel(path, Material.DEFAULT_TEXTURE);
+        return loadModel(path, null);
     }
 
     public static Model loadModel(String modelPath, String texturePath) {
@@ -24,38 +24,35 @@ public class ModelLoader {
         int numMeshes = aiScene.mNumMeshes();
         PointerBuffer buffer = aiScene.mMeshes();
 
-        List<Float> combinedVertices = new List<>();
-        List<Float> combinedTexCoords = new List<>();
-        List<Integer> combinedIndices = new List<>();
-
-        int vertexOffset = 0;
+        List<Mesh> meshes = new List<>();
 
         for (int z = 0; z < numMeshes; z++) {
             AIMesh aiMesh = AIMesh.create(buffer.get(z));
 
-            List<Float> vertices = new List<>();
-            List<Float> textCoords = new List<>();
-            List<Integer> indices = new List<>();
+            List<Float> vertices = processVertices(aiMesh);
+            List<Float> texCoords = processTextCoords(aiMesh);
+            List<Integer> indices = processIndices(aiMesh);
+            List<Float> colors = processColors(aiMesh);
 
-            processMesh(aiMesh, vertices, textCoords, indices);
-
-            combinedVertices.add(vertices);
-            combinedTexCoords.add(textCoords);
-
-            for (int index : indices) {
-                combinedIndices.add(index + vertexOffset);
-            }
-            vertexOffset += vertices.size() / 3;
+            Mesh mesh = new Mesh(vertices.toArray(new float[0]), texCoords.toArray(new float[0]), indices.toArray(new int[0]),colors.toArray(new float[0]));
+            meshes.add(mesh);
         }
-
-        Mesh combinedMesh = new Mesh(combinedVertices.toArray(new float[0]), combinedVertices.toArray(new float[0]), combinedIndices.toArray(new int[0]));
-        return new Model(combinedMesh, texturePath);
+        return new Model(texturePath, meshes);
     }
 
-    private static void processMesh(AIMesh aiMesh, List<Float> vertices, List<Float> textCoords, List<Integer> indices) {
-        vertices.add(processVertices(aiMesh));
-        textCoords.add(processTextCoords(aiMesh));
-        indices.add(processIndices(aiMesh));
+    private static List<Float> processColors(AIMesh aiMesh) {
+        List<Float> data = new List<>();
+        AIColor4D.Buffer colorBuffer = aiMesh.mColors(0);
+        if (colorBuffer != null) {
+            while (colorBuffer.remaining() > 0) {
+                AIColor4D color = colorBuffer.get();
+                data.add(color.r());
+                data.add(color.g());
+                data.add(color.b());
+                data.add(color.a());
+            }
+        }
+        return data;
     }
 
     private static List<Float> processVertices(AIMesh aiMesh) {
@@ -82,7 +79,6 @@ public class ModelLoader {
         }
         return data;
     }
-
     private static List<Integer> processIndices(AIMesh aiMesh) {
         List<Integer> indices = new List<>();
         int numFaces = aiMesh.mNumFaces();

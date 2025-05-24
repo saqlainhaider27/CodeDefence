@@ -65,25 +65,31 @@ public class Render {
 
         shader.setUniform("txtSampler", 0);
 
-        // Bind VAO
-        GL30.glBindVertexArray(model.getMesh().getVAO());
-        GL30.glEnableVertexAttribArray(0); // Vertex positions
-        GL30.glEnableVertexAttribArray(1); // Texture coordinates
+        // For each mesh in the model
+        for (Mesh mesh : model.getMeshes()) {
+            // Bind VAO
+            GL30.glBindVertexArray(mesh.getVAO());
+            GL30.glEnableVertexAttribArray(0);
+            GL30.glEnableVertexAttribArray(1);
+            GL30.glEnableVertexAttribArray(2);
 
-        // Bind IBO and texture
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, model.getMesh().getIBO());
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL13.glBindTexture(GL_TEXTURE_2D, model.getMaterial().getTextureID());
+            // Bind IBO and texture
+            GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
+            GL13.glActiveTexture(GL13.GL_TEXTURE0);
+            GL13.glBindTexture(GL_TEXTURE_2D, model.getMaterial().getTextureID());
 
-        // Render the mesh
-        GL11.glDrawElements(GL11.GL_TRIANGLES, model.getMesh().getIndices().length, GL11.GL_UNSIGNED_INT, 0);
+            // Render the mesh
+            GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
 
-        // Cleanup bindings
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-        GL30.glDisableVertexAttribArray(0);
-        GL30.glDisableVertexAttribArray(1);
-        GL30.glBindVertexArray(0);
+            // Cleanup bindings
+            GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+            GL30.glDisableVertexAttribArray(0);
+            GL30.glDisableVertexAttribArray(1);
+            GL30.glDisableVertexAttribArray(2);
+            GL30.glBindVertexArray(0);
+        }
     }
+
 
     public void createUniforms() {
         shader.createUniform("projectionMatrix");

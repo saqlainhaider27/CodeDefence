@@ -10,7 +10,7 @@ import org.joml.Vector3f;
 
 public class Turret extends GameObject {
     public static String MODEL = "src/main/resources/models/turret/turret.fbx";
-    public static String TEXTURE = Material.DEFAULT_TEXTURE;
+    public static String TEXTURE = "src/main/resources/models/turret/turret.png";
 
     public Shooter shooter;
     public Turret(Model model) {
