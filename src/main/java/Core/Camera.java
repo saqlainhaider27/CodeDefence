@@ -1,5 +1,6 @@
 package Core;
 import org.joml.*;
+import org.joml.Math;
 
 public class Camera {
 
@@ -43,8 +44,11 @@ public class Camera {
         recalculateViewMatrix();
     }
     public void setEulerRotation(float x, float y, float z) {
+        float pitchRad = (float) Math.toRadians(x);
+        float yawRad = (float) Math.toRadians(y);
+        float rollRad = (float) Math.toRadians(z);
         this.rotation.identity();
-        this.rotation.rotateXYZ(x, y, z);
+        this.rotation.rotateXYZ(pitchRad, yawRad, rollRad);
         recalculateViewMatrix();
     }
     public void lookAt(Vector3f target){

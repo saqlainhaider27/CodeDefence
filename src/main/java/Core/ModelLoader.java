@@ -12,7 +12,7 @@ import java.nio.IntBuffer;
 public class ModelLoader {
 
     public static Model loadModel(String path) {
-        return loadModel(path, null);
+        return loadModel(path, Material.DEFAULT_TEXTURE);
     }
 
     public static Model loadModel(String modelPath, String texturePath) {

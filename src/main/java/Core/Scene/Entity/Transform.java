@@ -39,8 +39,16 @@ public class Transform {
     public void setScale(float scale) {
         this.scale = scale;
     }
-    public void setEulerRotation(float x, float y, float z) {
+    public void setEulerRotation(float pitch, float yaw, float roll) {
+        float pitchRad = (float) Math.toRadians(pitch);
+        float yawRad = (float) Math.toRadians(yaw);
+        float rollRad = (float) Math.toRadians(roll);
         this.rotation.identity();
-        this.rotation.rotateXYZ(x, y, z);
+
+        this.rotation.rotateX(pitchRad)
+                .rotateY(yawRad)
+                .rotateZ(rollRad);
     }
+
+
 }

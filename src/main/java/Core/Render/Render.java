@@ -65,7 +65,6 @@ public class Render {
 
         shader.setUniform("txtSampler", 0);
 
-        // For each mesh in the model
         for (Mesh mesh : model.getMeshes()) {
             // Bind VAO
             GL30.glBindVertexArray(mesh.getVAO());
