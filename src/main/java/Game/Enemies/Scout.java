@@ -1,10 +1,15 @@
 package Game.Enemies;
 
+import Core.Scene.Entity.Component.CharacterController;
 import Core.Scene.Entity.Model;
+import Core.Scene.Entity.Texture;
+import Game.Path;
 
 public class Scout extends Enemy{
-    public static final String MODEL = "";
-    public static final String TEXTURE = "";
+
+
+    public static final String MODEL = "src/main/resources/models/bullet/bullet.glb";
+    public static final String TEXTURE = Texture.DEFAULT_TEXTURE;
     public Scout(Model model) {
         super(model);
     }

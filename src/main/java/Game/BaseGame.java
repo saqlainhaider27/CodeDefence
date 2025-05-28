@@ -4,14 +4,18 @@ import Core.Camera;
 import Core.Engine.IAppLogic;
 import Core.Scene.Entity.*;
 import Core.Scene.Scene;
+import Core.Scene.UI.Canvas;
+import Core.Scene.UI.UIObject;
 
 public abstract class BaseGame implements IAppLogic {
 
     protected Scene scene;
     protected Camera camera;
+    protected Canvas canvas;
     @Override
     public void init() {
         scene = new Scene();
+        canvas = new Canvas();
         camera = scene.getCamera();
         start();
     }
@@ -21,6 +25,9 @@ public abstract class BaseGame implements IAppLogic {
             gameObject.updateModelMatrix();
             gameObject.loop();
         }
+        for (UIObject uiObject: canvas.getUiObjects()) {
+            uiObject.updateModelMatrix();
+        }
         update();
     }
 
@@ -29,11 +36,23 @@ public abstract class BaseGame implements IAppLogic {
         for (GameObject gameObject : scene.getGameObjects()) {
             gameObject.cleanup();
         }
+        for (UIObject uiObject: canvas.getUiObjects()) {
+            uiObject.cleanup();
+        }
         end();
     }
     public Scene getScene() {
         return scene;
     }
+
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
     public abstract void start();
     public abstract void update();
     public abstract void end();

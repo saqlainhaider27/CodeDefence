@@ -5,13 +5,13 @@ import org.joml.Matrix4f;
 
 public class Model {
     private List<Mesh> meshes;
-    private Material material;
+    private Texture texture;
     public Model(String texturePath, Mesh ... meshArray) {
         meshes = new List<>();
         for (Mesh mesh : meshArray){
             meshes.add(mesh);
         }
-        this.material = new Material(texturePath);
+        this.texture = new Texture(texturePath);
         create();
     }
 
@@ -25,7 +25,7 @@ public class Model {
         for (Mesh mesh : meshList){
             meshes.add(mesh);
         }
-        this.material = new Material(texturePath);
+        this.texture = new Texture(texturePath);
         create();
     }
     public void create(){
@@ -33,8 +33,8 @@ public class Model {
             mesh.create();
         }
     }
-    public Material getMaterial() {
-        return material;
+    public Texture getMaterial() {
+        return texture;
     }
     public Matrix4f getModelMatrix(){
         return new Matrix4f();
@@ -44,7 +44,7 @@ public class Model {
         for (Mesh mesh: meshes) {
             mesh.cleanup();
         }
-        material.cleanup();
+        texture.cleanup();
     }
     public List<Mesh> getMeshes() {
         return meshes;

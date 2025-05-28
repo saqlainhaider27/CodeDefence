@@ -85,4 +85,10 @@ public class LinkedList<TData> {
         }
         System.out.println("null");
     }
+    public Node<TData> getHead(){
+        return head;
+    }
+    public TData getHeadData(){
+        return head.data;
+    }
 }

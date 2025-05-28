@@ -9,11 +9,15 @@ import org.joml.Vector3f;
 public class EnemySpawner {
     private List<Enemy> enemies;
     private Vector3f spawnLocation;
+
+
+
     private float nanoTime = 1000000000f;
     public float spawnDelay = 1f;
     private float lastTime;
     public EnemySpawner() {
         enemies = new List<>();
+        spawnLocation = new Vector3f();
     }
 
     public void spawnRandomFromList(){
@@ -42,13 +46,14 @@ public class EnemySpawner {
     }
     private <T extends Enemy> void spawn(T enemy){
         Launcher.getGame().getScene().addGameObject(enemy);
-        enemy.transform.position = spawnLocation;
+        enemies.add(enemy);
+        enemy.transform.setPosition(spawnLocation.x, spawnLocation.y, spawnLocation.z);
+        System.out.println("Spawned: " + enemy.getClass() + " Location: " + spawnLocation.toString() );
     }
-
-    public void startSpawn() {
+    public void spawn() {
         float currentTime = System.nanoTime();
         if(currentTime > lastTime + nanoTime * spawnDelay){
-            //spawnRandomFromList();
+            spawnRandomFromList();
             lastTime = currentTime;
         }
     }
@@ -62,5 +67,9 @@ public class EnemySpawner {
     }
     public void setSpawnLocation(float x,float y, float z){
         this.spawnLocation = new Vector3f(x,y,z);
+    }
+
+    public List<Enemy> getEnemies() {
+        return enemies;
     }
 }

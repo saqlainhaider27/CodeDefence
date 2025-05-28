@@ -10,7 +10,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.system.MemoryStack.stackPush;
 
-public class Material {
+public class Texture {
 
     private int textureID;
     public static String DEFAULT_TEXTURE = "src/main/resources/models/default/default_texture.png";
@@ -19,11 +19,11 @@ public class Material {
 
     private float width, height;
 
-    public Material(String path) {
+    public Texture(String path) {
         loadTexture(path);
     }
 
-    public Material() {
+    public Texture() {
         loadTexture(DEFAULT_TEXTURE);
     }
 

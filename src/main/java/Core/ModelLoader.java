@@ -1,6 +1,6 @@
 package Core;
 
-import Core.Scene.Entity.Material;
+import Core.Scene.Entity.Texture;
 import Core.Scene.Entity.Mesh;
 import Core.Scene.Entity.Model;
 import Utils.Generics.List;
@@ -12,7 +12,7 @@ import java.nio.IntBuffer;
 public class ModelLoader {
 
     public static Model loadModel(String path) {
-        return loadModel(path, Material.DEFAULT_TEXTURE);
+        return loadModel(path, Texture.DEFAULT_TEXTURE);
     }
 
     public static Model loadModel(String modelPath, String texturePath) {
