@@ -42,12 +42,13 @@ public class EnemySpawner {
     }
     private <T extends Enemy> void spawn(T enemy){
         Launcher.getGame().getScene().addGameObject(enemy);
+        enemy.transform.position = spawnLocation;
     }
 
     public void startSpawn() {
         float currentTime = System.nanoTime();
         if(currentTime > lastTime + nanoTime * spawnDelay){
-            spawnRandomFromList();
+            //spawnRandomFromList();
             lastTime = currentTime;
         }
     }
