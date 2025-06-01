@@ -6,6 +6,8 @@ import Core.Scene.Entity.Component.Shooter;
 import Core.Scene.Entity.GameObject;
 import Core.Scene.Entity.Model;
 import Core.Scene.Entity.Transform;
+import Game.CodeDefense;
+import org.joml.Vector3f;
 
 public class Turret extends GameObject {
     public static String MODEL = "src/main/resources/models/turret/turret.fbx";
@@ -26,10 +28,18 @@ public class Turret extends GameObject {
     public void start() {
         shooter = addComponent(Shooter.class);
         shooter.startShoot = true;
-        shooter.shootDelay = 10f;
+        shooter.shootPoint = new Vector3f(7.5f,0,-10);
+        shooter.shootDelay = 3f;
         shooter.onShoot = () -> {
-            scene.addGameObject(new Bullet(ModelLoader.loadModel(Bullet.MODEL, Bullet.TEXTURE)));
+            if (CodeDefense.getEnemySpawner().getEnemies().isEmpty()){
+                return;
+            }
+            Bullet bullet = new Bullet(ModelLoader.loadModel(Bullet.MODEL, Bullet.TEXTURE), new Transform(new Vector3f(shooter.shootPoint.x,
+                    shooter.shootPoint.y,
+                    shooter.shootPoint.z)));
+            scene.addGameObject(bullet);
         };
+
 
         healthComponent = addComponent(Health.class);
         healthComponent.health = 100;

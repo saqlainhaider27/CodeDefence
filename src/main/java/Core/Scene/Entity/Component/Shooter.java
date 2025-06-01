@@ -4,6 +4,7 @@ import org.joml.Vector3f;
 
 public class Shooter extends BaseComponent{
     public Vector3f targetPosition;
+    public Vector3f shootPoint;
     public float nanoTime = 1000000000f;
     public float shootDelay = 1f;
     public boolean startShoot;

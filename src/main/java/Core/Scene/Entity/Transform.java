@@ -17,6 +17,11 @@ public class Transform {
     public Transform() {
         this(new Vector3f(), new Quaternionf(), 1.0f);
     }
+
+    public Transform(Vector3f position) {
+        this(position, new Quaternionf(), 1.0f);
+    }
+
     public final void setPosition(float x, float y, float z) {
         position.x = x;
         position.y = y;

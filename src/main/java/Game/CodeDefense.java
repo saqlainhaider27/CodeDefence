@@ -7,7 +7,7 @@ import Game.Player.Turret;
 
 public class CodeDefense extends BaseGame{
     private GameManager gameManager;
-    private EnemySpawner enemySpawner;
+    private static EnemySpawner enemySpawner;
 
     private Turret turret;
 
@@ -18,8 +18,8 @@ public class CodeDefense extends BaseGame{
         gameManager = new GameManager();
         enemySpawner = new EnemySpawner();
 
-        enemySpawner.spawnDelay = 10f;
-        enemySpawner.setSpawnLocation(-10,0,0);
+        enemySpawner.spawnDelay = 3f;
+        enemySpawner.setSpawnLocation(-10,0.5f,-10);
 
         gameManager.setCurrentState(GameStates.Start);
 
@@ -47,5 +47,9 @@ public class CodeDefense extends BaseGame{
 
     public Turret getTurret() {
         return turret;
+    }
+
+    public static EnemySpawner getEnemySpawner() {
+        return enemySpawner;
     }
 }

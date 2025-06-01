@@ -50,6 +50,9 @@ public class EnemySpawner {
         enemy.transform.setPosition(spawnLocation.x, spawnLocation.y, spawnLocation.z);
         System.out.println("Spawned: " + enemy.getClass() + " Location: " + spawnLocation.toString() );
     }
+    public <T extends Enemy>void despawn(T enemy){
+        enemies.remove(enemy);
+    }
     public void spawn() {
         float currentTime = System.nanoTime();
         if(currentTime > lastTime + nanoTime * spawnDelay){
