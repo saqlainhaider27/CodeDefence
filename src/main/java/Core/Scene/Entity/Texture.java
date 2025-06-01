@@ -56,6 +56,14 @@ public class Texture {
         }
     }
 
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
     public void cleanup() {
         glDeleteTextures(textureID);
     }

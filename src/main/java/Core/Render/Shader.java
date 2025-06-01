@@ -88,6 +88,10 @@ public class Shader {
     public void setUniform(String uniformName, Vector4f vector) {
         glUniform4f(uniforms.get(uniformName), vector.x, vector.y, vector.z, vector.w);
     }
+    public void setUniform(String uniformName, boolean value) {
+        glUniform1i(uniforms.get(uniformName), value ? 1 : 0);
+    }
+
     public void setUniformMatrix(String uniformName, Matrix4f matrix) {
         java.nio.FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
         matrix.get(matrixBuffer);

@@ -101,9 +101,18 @@ public class Render {
         if (!uiObject.isVisible() || !uiObject.isEnabled()) return;
 
         Mesh mesh = uiObject.getMesh();
-
         canvasShader.setUniformMatrix("modelMatrix", uiObject.getModelMatrix());
-        canvasShader.setUniform("baseColor", new Vector4f(1.0f, 0.5f, 0.2f, 1.0f)); // orange
+
+        boolean hasTexture = uiObject.getTextureID() != 0;
+        canvasShader.setUniform("useTexture", hasTexture);
+
+        if (hasTexture) {
+            GL13.glActiveTexture(GL13.GL_TEXTURE0);
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, uiObject.getTextureID());
+            canvasShader.setUniform("txtSampler", 0);
+        } else {
+            canvasShader.setUniform("baseColor", uiObject.getColor());
+        }
 
         GL30.glBindVertexArray(mesh.getVAO());
         GL30.glEnableVertexAttribArray(0);
@@ -123,6 +132,7 @@ public class Render {
 
 
 
+
     public void createSceneUniforms() {
         sceneShader.createUniform("projectionMatrix");
         sceneShader.createUniform("modelMatrix");
@@ -134,5 +144,8 @@ public class Render {
         canvasShader.createUniform("modelMatrix");
         canvasShader.createUniform("camera");
         canvasShader.createUniform("baseColor");
+        canvasShader.createUniform("txtSampler");
+        canvasShader.createUniform("useTexture");
     }
+
 }

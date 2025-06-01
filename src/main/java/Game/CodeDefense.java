@@ -1,7 +1,11 @@
 package Game;
 
+import Core.Engine.IO.Input;
 import Core.ModelLoader;
+import Core.Scene.Entity.Texture;
 import Core.Scene.Entity.Transform;
+import Core.Scene.UI.Button;
+import Core.Scene.UI.Image;
 import Core.Scene.UI.TextBox;
 import Core.Scene.UI.UIObject;
 import Game.Enemies.EnemySpawner;
@@ -34,25 +38,29 @@ public class CodeDefense extends BaseGame{
         camera.setEulerRotation(30,0,0);
 
         turret = new Turret(ModelLoader.loadModel(Turret.MODEL, Turret.TEXTURE));
-        Square square = new Square(0,0,1);
-        UIObject sq = new UIObject(square.createMesh()) {
-            @Override
-            public void start() {
 
-            }
-
-            @Override
-            public void update() {
-
-            }
+        Button button = new Button("Hi");
+        button.setScale(100,100);
+        button.setPosition(100,100);
+        button.onButtonClicked = () -> {
+            System.out.println("Pressed");
         };
-        sq.setScale(100f, 100f);
-        sq.setPosition(Launcher.getWindow().getWidth() /2, Launcher.getWindow().getHeight() / 2);
+        button.onButtonHover = () -> {
+            button.setScale(120,120);
+        };
+        button.onExitHover = () ->{
+            button.setScale(100,100);
+        };
+
+        Image image = new Image("src/main/resources/images/image.jpeg");
+        image.setPosition(300,300);
+
 
         scene.addGameObject(new Terrain(ModelLoader.loadModel(Terrain.MODEL, Terrain.TEXTURE)));
         scene.addGameObject(turret);
 
-        canvas.addUIObject(sq);
+        canvas.addUIObject(button);
+        canvas.addUIObject(image);
     }
 
     @Override
