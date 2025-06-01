@@ -92,7 +92,7 @@ public class Engine {
         appLogic.loop();
     }
     private void render(){
-        renderer.render(window, Launcher.getGame().getScene());
+        renderer.render(window, Launcher.getGame().getScene(), Launcher.getGame().getCanvas());
     }
     private void cleanup() {
         window.cleanup();

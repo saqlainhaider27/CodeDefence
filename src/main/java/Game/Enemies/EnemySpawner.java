@@ -9,21 +9,31 @@ import org.joml.Vector3f;
 public class EnemySpawner {
     private List<Enemy> enemies;
     private Vector3f spawnLocation;
-
+    private int maxEnemies = 100;
+    private int spawnedEnemies;
+    private boolean bossSpawned;
 
 
     private float nanoTime = 1000000000f;
     public float spawnDelay = 1f;
     private float lastTime;
+
     public EnemySpawner() {
         enemies = new List<>();
         spawnLocation = new Vector3f();
+        spawnedEnemies = 0;
+        bossSpawned = false;
     }
 
     public void spawnRandomFromList(){
+        if (bossSpawned) return;
         Random rnd = new Random();
-        int i = rnd.nextInt(5);
+        int i = rnd.nextInt(4);
         EnemyTypes spawnType = getSpawnType(i);
+        if (spawnedEnemies >= maxEnemies){
+            spawnType = EnemyTypes.Boss;
+            bossSpawned = true;
+        }
         switch (spawnType){
             case Scout -> spawn(new Scout(ModelLoader.loadModel(Scout.MODEL,Scout.TEXTURE)));
             case Engineer -> spawn(new Engineer(ModelLoader.loadModel(Engineer.MODEL,Engineer.TEXTURE)));
@@ -39,7 +49,6 @@ public class EnemySpawner {
             case 1 -> spawnType = EnemyTypes.Soldier;
             case 2 -> spawnType = EnemyTypes.Engineer;
             case 3 -> spawnType = EnemyTypes.HeavyGunner;
-            case 4 -> spawnType = EnemyTypes.Boss;
             default -> spawnType = EnemyTypes.Scout;
         }
         return spawnType;
@@ -47,8 +56,9 @@ public class EnemySpawner {
     private <T extends Enemy> void spawn(T enemy){
         Launcher.getGame().getScene().addGameObject(enemy);
         enemies.add(enemy);
+        spawnedEnemies++;
         enemy.transform.setPosition(spawnLocation.x, spawnLocation.y, spawnLocation.z);
-        System.out.println("Spawned: " + enemy.getClass() + " Location: " + spawnLocation.toString() );
+        // System.out.println("Spawned: " + enemy.getClass() + " Location: " + spawnLocation.toString() );
     }
     public <T extends Enemy>void despawn(T enemy){
         enemies.remove(enemy);

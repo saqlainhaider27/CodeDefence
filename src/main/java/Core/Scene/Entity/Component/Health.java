@@ -12,14 +12,15 @@ public class Health extends BaseComponent {
     @Override
     public void update() {
     }
-    public void hit(int damage){
-        if (health - damage <= 0 && !dead){
-            die();
-            return;
-        }
+    public void hit(int damage) {
+        if (dead) return;
+
         health -= damage;
-        System.out.println(health);
+        if (health <= 0) {
+            die();
+        }
     }
+
 
     private void die() {
         health = 0;

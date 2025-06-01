@@ -1,6 +1,7 @@
 package Core.Scene.UI;
 
 import Utils.Generics.List;
+import org.joml.Matrix4f;
 
 public class Canvas {
     private List<UIObject> uiObjects;
@@ -18,4 +19,8 @@ public class Canvas {
     public List<UIObject> getUiObjects() {
         return uiObjects;
     }
+    public Matrix4f getOrthoProjection(int width, int height) {
+        return new Matrix4f().ortho2D(0, width, height, 0);
+    }
+
 }

@@ -26,7 +26,7 @@ public abstract class BaseGame implements IAppLogic {
             gameObject.loop();
         }
         for (UIObject uiObject: canvas.getUiObjects()) {
-            uiObject.updateModelMatrix();
+
         }
         update();
     }
@@ -37,7 +37,7 @@ public abstract class BaseGame implements IAppLogic {
             gameObject.cleanup();
         }
         for (UIObject uiObject: canvas.getUiObjects()) {
-            uiObject.cleanup();
+            uiObject.update();
         }
         end();
     }
