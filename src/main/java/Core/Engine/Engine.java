@@ -50,11 +50,7 @@ public class Engine {
     }
     public void init(){
         window.init();
-        try{
-            audio.init();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        audio.init();
         appLogic.init();
         renderer.init();
 
