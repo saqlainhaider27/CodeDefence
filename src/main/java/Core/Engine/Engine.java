@@ -1,5 +1,6 @@
 package Core.Engine;
 
+import Core.Audio.AudioManager;
 import Core.Engine.IO.Input;
 import Core.Render.Render;
 import Core.Engine.IO.Window;
@@ -28,11 +29,12 @@ public class Engine {
     private IAppLogic appLogic;
     private Window window;
     private Render renderer;
-
+    private AudioManager audio;
     private boolean running = false;
     private Engine() {
         window = Launcher.getWindow();
         appLogic = Launcher.getGame();
+        audio = new AudioManager();
         renderer = new Render();
     }
     public void start(){
@@ -48,8 +50,15 @@ public class Engine {
     }
     public void init(){
         window.init();
+        try{
+            audio.init();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         appLogic.init();
         renderer.init();
+
+
     }
     public void run(){
         running = true;
@@ -98,6 +107,7 @@ public class Engine {
         window.cleanup();
         appLogic.cleanup();
         renderer.cleanup();
+        audio.cleanup();
     }
 
 }

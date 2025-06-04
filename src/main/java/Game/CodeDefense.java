@@ -1,5 +1,6 @@
 package Game;
 
+import Core.Audio.SoundLoader;
 import Core.Engine.IO.Input;
 import Core.ModelLoader;
 import Core.Scene.Entity.Texture;
@@ -22,6 +23,12 @@ public class CodeDefense extends BaseGame{
 
     @Override
     public void start() {
+        SoundLoader.SoundData bgMusic  = SoundLoader.loadSound("src/main/resources/audio/bg_music.ogg");
+        source.load(bgMusic);
+        source.play();
+
+
+
         gameManager = new GameManager();
         enemySpawner = new EnemySpawner();
 
