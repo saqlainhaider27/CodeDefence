@@ -1,12 +1,14 @@
 package Core.Scene.Entity.Component;
 
 public class Health extends BaseComponent {
+    public int maxHealth;
     public int health;
     private boolean dead;
     @Override
     public void start() {
         super.start();
         dead = false;
+        health = maxHealth;
     }
 
     @Override

@@ -14,6 +14,7 @@ public class Launcher {
         game = new CodeDefense();
         window = new Window(Consts.TITLE, 1280, 720);
         Engine.getInstance().start();
+        
     }
     public static Window getWindow() {
         return window;

@@ -4,10 +4,7 @@ import Core.Engine.IO.Input;
 import Core.ModelLoader;
 import Core.Scene.Entity.Texture;
 import Core.Scene.Entity.Transform;
-import Core.Scene.UI.Button;
-import Core.Scene.UI.Image;
-import Core.Scene.UI.TextBox;
-import Core.Scene.UI.UIObject;
+import Core.Scene.UI.*;
 import Game.Enemies.EnemySpawner;
 import Game.Enemies.Scout;
 import Game.Player.Turret;
@@ -34,7 +31,6 @@ public class CodeDefense extends BaseGame{
         gameManager.setCurrentState(GameStates.Start);
 
         camera.setPosition(0,10,20);
-        // camera.setPosition(0,0,20);
         camera.setEulerRotation(30,0,0);
 
         turret = new Turret(ModelLoader.loadModel(Turret.MODEL, Turret.TEXTURE));
@@ -60,7 +56,7 @@ public class CodeDefense extends BaseGame{
         scene.addGameObject(turret);
 
         canvas.addUIObject(button);
-        canvas.addUIObject(image);
+        //canvas.addUIObject(image);
     }
 
     @Override

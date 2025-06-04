@@ -2,6 +2,7 @@ package Core.Scene.Entity;
 
 import Core.Scene.Entity.Component.BaseComponent;
 import Core.Scene.Scene;
+import Core.Scene.UI.Canvas;
 import Main.Launcher;
 import Utils.Generics.HashMap;
 import org.joml.*;
@@ -14,12 +15,14 @@ public abstract class GameObject implements IBehaviour{
     public Transform transform;
     private Model model;
     public Scene scene;
+    public Canvas canvas;
 
     public GameObject(Model model){
         this.model = model;
         this.transform = new Transform();
         modelMatrix = new Matrix4f();
         scene = Launcher.getGame().getScene();
+        canvas = Launcher.getGame().getCanvas();
         start();
     }
     public GameObject(Model model, Transform transform){
@@ -27,6 +30,7 @@ public abstract class GameObject implements IBehaviour{
         this.transform = transform;
         modelMatrix = new Matrix4f();
         scene = Launcher.getGame().getScene();
+        canvas = Launcher.getGame().getCanvas();
         start();
     }
 

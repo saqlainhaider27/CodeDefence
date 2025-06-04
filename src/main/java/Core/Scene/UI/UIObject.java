@@ -2,6 +2,7 @@ package Core.Scene.UI;
 
 import Core.Scene.Entity.Mesh;
 import Core.Scene.Entity.Texture;
+import Utils.Generics.List;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
@@ -12,13 +13,16 @@ public abstract class UIObject {
     protected boolean visible = true;
     protected boolean enabled = true;
 
+    private UIObject parent = null;
+    private List<UIObject> children = new List<>();
+
+
     private Vector4f color;
     private Mesh mesh;
 
-    // Position, scale, rotation for UI placement
-    protected Vector2f position = new Vector2f(0, 0);  // in screen pixels
+    protected Vector2f position = new Vector2f(0, 0);
     protected Vector2f scale = new Vector2f(1, 1);
-    protected float rotation = 0f;  // rotation in degrees, optional
+    protected float rotation = 0f;
     public UIObject(Mesh mesh) {
         this.mesh = mesh;
         color = new Vector4f(1,1,1,1);
@@ -53,13 +57,16 @@ public abstract class UIObject {
         return mesh;
     }
 
-    // Setters and getters for position, scale, rotation
     public Vector2f getPosition() {
         return position;
     }
 
     public void setPosition(float x, float y) {
         this.position.set(x, y);
+    }
+    public void setPosition(Vector2f vector2f){
+        this.position.x = vector2f.x;
+        this.position.y = vector2f.y;
     }
 
     public Vector2f getScale() {
@@ -68,6 +75,10 @@ public abstract class UIObject {
 
     public void setScale(float sx, float sy) {
         this.scale.set(sx, sy);
+    }
+    public void setScale(Vector2f vector2f){
+        this.scale.x = vector2f.x;
+        this.scale.y = vector2f.y;
     }
 
     public float getRotation() {
@@ -82,12 +93,18 @@ public abstract class UIObject {
     }
 
     public Matrix4f getModelMatrix() {
-        Matrix4f model = new Matrix4f().identity();
-        model.translate(position.x, position.y, 0);
-        model.rotate((float) Math.toRadians(rotation), 0, 0, 1);
-        model.scale(scale.x, scale.y, 1);
+        Matrix4f model = new Matrix4f().identity()
+                .translate(position.x, position.y, 0)
+                .rotate((float) Math.toRadians(rotation), 0, 0, 1)
+                .scale(scale.x, scale.y, 1);
+
+        if (parent != null) {
+            return new Matrix4f(parent.getModelMatrix()).mul(model);
+        }
+
         return model;
     }
+
     public void setColor(float r, float g, float b, float a){
         this.color.x = r;
         this.color.y = g;
@@ -111,4 +128,25 @@ public abstract class UIObject {
     public Texture getTexture(){
         return texture;
     }
+
+    protected void setParent(UIObject uiObject) {
+        if (this.parent != null) {
+            this.parent.children.remove(this);
+        }
+
+        this.parent = uiObject;
+
+        if (uiObject != null) {
+            uiObject.children.add(this);
+        }
+    }
+
+    public UIObject getParent() {
+        return parent;
+    }
+    public List<UIObject> getChildren() {
+        return children;
+    }
+
+
 }
