@@ -62,4 +62,8 @@ public abstract class BaseGame implements IAppLogic {
     public abstract void start();
     public abstract void update();
     public abstract void end();
+
+    public SoundPlayer getSource() {
+        return source;
+    }
 }

@@ -1,5 +1,6 @@
 package Core.Scene.Entity;
 
+import Core.Audio.SoundPlayer;
 import Core.Scene.Entity.Component.BaseComponent;
 import Core.Scene.Scene;
 import Core.Scene.UI.Canvas;
@@ -16,6 +17,7 @@ public abstract class GameObject implements IBehaviour{
     private Model model;
     public Scene scene;
     public Canvas canvas;
+    public SoundPlayer source;
 
     public GameObject(Model model){
         this.model = model;
@@ -23,6 +25,7 @@ public abstract class GameObject implements IBehaviour{
         modelMatrix = new Matrix4f();
         scene = Launcher.getGame().getScene();
         canvas = Launcher.getGame().getCanvas();
+        source = Launcher.getGame().getSource();
         start();
     }
     public GameObject(Model model, Transform transform){

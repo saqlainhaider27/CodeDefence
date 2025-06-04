@@ -1,5 +1,6 @@
 package Game.Player;
 
+import Core.Audio.SoundLoader;
 import Core.ModelLoader;
 import Core.Scene.Entity.Component.Health;
 import Core.Scene.Entity.Component.Shooter;
@@ -29,6 +30,7 @@ public class Turret extends GameObject {
 
     @Override
     public void start() {
+
         healthBar = new Slider();
 
         shooter = addComponent(Shooter.class);
@@ -39,6 +41,9 @@ public class Turret extends GameObject {
             if (CodeDefense.getEnemySpawner().getEnemies().isEmpty()){
                 return;
             }
+            SoundLoader.SoundData laserShoot = SoundLoader.loadSound("src/main/resources/audio/laser_shoot.ogg");
+            source.load(laserShoot);
+            source.play();
             Bullet bullet = new Bullet(ModelLoader.loadModel(Bullet.MODEL, Bullet.TEXTURE), new Transform(new Vector3f(shooter.shootPoint.x,
                     shooter.shootPoint.y,
                     shooter.shootPoint.z)));
@@ -67,6 +72,9 @@ public class Turret extends GameObject {
         }
     }
     public void takeDamage(int damage){
+        SoundLoader.SoundData metalHit = SoundLoader.loadSound("src/main/resources/audio/metal_hit.ogg");
+        source.load(metalHit);
+        source.play();
         healthComponent.hit(damage);
         healthBar.setFillAmount((float) healthComponent.health / healthComponent.maxHealth);
 
