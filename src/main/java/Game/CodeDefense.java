@@ -1,17 +1,10 @@
 package Game;
 
 import Core.Audio.SoundLoader;
-import Core.Engine.IO.Input;
 import Core.ModelLoader;
-import Core.Scene.Entity.Texture;
-import Core.Scene.Entity.Transform;
 import Core.Scene.UI.*;
 import Game.Enemies.EnemySpawner;
-import Game.Enemies.Scout;
 import Game.Player.Turret;
-import Main.Launcher;
-import Utils.Shapes.Square;
-import org.joml.Vector3f;
 
 public class CodeDefense extends BaseGame{
     private GameManager gameManager;
@@ -19,15 +12,11 @@ public class CodeDefense extends BaseGame{
 
     private Turret turret;
 
-
-
     @Override
     public void start() {
         SoundLoader.SoundData bgMusic  = SoundLoader.loadSound("src/main/resources/audio/bg_music.ogg");
         source.load(bgMusic);
         source.play();
-
-
 
         gameManager = new GameManager();
         enemySpawner = new EnemySpawner();
@@ -42,19 +31,6 @@ public class CodeDefense extends BaseGame{
 
         turret = new Turret(ModelLoader.loadModel(Turret.MODEL, Turret.TEXTURE));
 
-        Button button = new Button("Hi");
-        button.setScale(100,100);
-        button.setPosition(100,100);
-        button.onButtonClicked = () -> {
-            System.out.println("Pressed");
-        };
-        button.onButtonHover = () -> {
-            button.setScale(120,120);
-        };
-        button.onExitHover = () ->{
-            button.setScale(100,100);
-        };
-
         Image image = new Image("src/main/resources/images/image.jpeg");
         image.setPosition(300,300);
 
@@ -62,8 +38,7 @@ public class CodeDefense extends BaseGame{
         scene.addGameObject(new Terrain(ModelLoader.loadModel(Terrain.MODEL, Terrain.TEXTURE)));
         scene.addGameObject(turret);
 
-        canvas.addUIObject(button);
-        //canvas.addUIObject(image);
+        // canvas.addUIObject(image);
     }
 
     @Override

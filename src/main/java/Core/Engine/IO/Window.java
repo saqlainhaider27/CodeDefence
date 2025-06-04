@@ -35,7 +35,7 @@ public class Window {
         glfwDefaultWindowHints();
 
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
-        glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
@@ -72,7 +72,7 @@ public class Window {
         // Generic settings
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_STENCIL_TEST);
-        //glEnable(GL_CULL_FACE);
+        glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
         
 
