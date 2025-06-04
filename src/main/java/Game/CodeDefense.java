@@ -2,7 +2,7 @@ package Game;
 
 import Core.Audio.SoundLoader;
 import Core.ModelLoader;
-import Core.Scene.UI.*;
+import Core.Canvas.Elemets.Image;
 import Game.Enemies.EnemySpawner;
 import Game.Player.Turret;
 

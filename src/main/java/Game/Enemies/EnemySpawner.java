@@ -54,7 +54,7 @@ public class EnemySpawner {
         return spawnType;
     }
     private <T extends Enemy> void spawn(T enemy){
-        Launcher.getGame().getScene().addGameObject(enemy);
+        Launcher.getGame().scene.addGameObject(enemy);
         enemies.add(enemy);
         spawnedEnemies++;
         enemy.transform.setPosition(spawnLocation.x, spawnLocation.y, spawnLocation.z);

@@ -5,6 +5,7 @@ import Core.Engine.IO.Input;
 import Core.Render.Render;
 import Core.Engine.IO.Window;
 import Main.Launcher;
+import Utils.Interfaces.IAppLogic;
 import org.lwjgl.glfw.GLFW;
 
 
@@ -97,7 +98,7 @@ public class Engine {
         appLogic.loop();
     }
     private void render(){
-        renderer.render(window, Launcher.getGame().getScene(), Launcher.getGame().getCanvas());
+        renderer.render(window, Launcher.getGame().scene, Launcher.getGame().canvas);
     }
     private void cleanup() {
         window.cleanup();

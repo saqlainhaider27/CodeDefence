@@ -1,9 +1,8 @@
-package Core.Scene.UI;
+package Core.Canvas.Elemets;
 
 import Core.Scene.Entity.Mesh;
 import Main.Launcher;
 import Utils.Shapes.Square;
-import org.joml.Vector2f;
 
 public class Slider extends UIObject {
     private SliderFill fill;
@@ -26,7 +25,7 @@ public class Slider extends UIObject {
 
     private void initFill() {
         fill = new SliderFill();
-        Launcher.getGame().getCanvas().addUIObject(fill);
+        Launcher.getGame().canvas.addUIObject(fill);
         fill.setParent(this);
         updateFill();
     }

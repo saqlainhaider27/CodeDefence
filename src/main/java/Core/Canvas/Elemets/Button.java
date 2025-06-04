@@ -1,12 +1,12 @@
-package Core.Scene.UI;
+package Core.Canvas.Elemets;
 
 import Core.Engine.IO.Input;
-import Core.Scene.Entity.Component.Action;
+import Utils.Interfaces.Action;
 import Core.Scene.Entity.Mesh;
 import Utils.Shapes.Square;
 import org.joml.Vector2d;
 
-public class Button extends UIObject{
+public class Button extends UIObject {
     private TextBox textBox;
     public Action onButtonClicked;
     public Action onButtonHover;

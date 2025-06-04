@@ -1,5 +1,6 @@
 package Core.Scene.Entity.Component;
 
+import Utils.Interfaces.Action;
 import org.joml.Vector3f;
 
 public class CharacterController extends BaseComponent{

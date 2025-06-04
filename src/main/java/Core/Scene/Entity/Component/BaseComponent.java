@@ -1,7 +1,7 @@
 package Core.Scene.Entity.Component;
 
 import Core.Scene.Entity.GameObject;
-import Core.Scene.Entity.IBehaviour;
+import Utils.Interfaces.IBehaviour;
 import Core.Scene.Entity.Transform;
 
 public abstract class BaseComponent implements IBehaviour {

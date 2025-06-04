@@ -1,4 +1,4 @@
-package Core.Scene.Entity.Component;
+package Utils.Interfaces;
 
 public interface Action {
     void perform();

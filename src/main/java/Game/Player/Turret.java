@@ -7,8 +7,7 @@ import Core.Scene.Entity.Component.Shooter;
 import Core.Scene.Entity.GameObject;
 import Core.Scene.Entity.Model;
 import Core.Scene.Entity.Transform;
-import Core.Scene.UI.Slider;
-import Core.Scene.UI.SliderFill;
+import Core.Canvas.Elemets.Slider;
 import Game.CodeDefense;
 import org.joml.Vector3f;
 

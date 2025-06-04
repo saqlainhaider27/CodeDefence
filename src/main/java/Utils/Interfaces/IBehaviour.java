@@ -1,4 +1,4 @@
-package Core.Scene.Entity;
+package Utils.Interfaces;
 
 public interface IBehaviour {
     void start();

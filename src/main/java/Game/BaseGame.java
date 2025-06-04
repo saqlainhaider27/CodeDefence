@@ -1,20 +1,19 @@
 package Game;
 
-import Core.Audio.AudioManager;
 import Core.Audio.SoundPlayer;
 import Core.Camera;
-import Core.Engine.IAppLogic;
+import Utils.Interfaces.IAppLogic;
 import Core.Scene.Entity.*;
 import Core.Scene.Scene;
-import Core.Scene.UI.Canvas;
-import Core.Scene.UI.UIObject;
+import Core.Canvas.Canvas;
+import Core.Canvas.Elemets.UIObject;
 
 public abstract class BaseGame implements IAppLogic {
 
-    protected Scene scene;
-    protected Camera camera;
-    protected Canvas canvas;
-    protected SoundPlayer source;
+    public Scene scene;
+    public Camera camera;
+    public Canvas canvas;
+    public SoundPlayer source;
 
     @Override
     public void init() {
@@ -47,23 +46,10 @@ public abstract class BaseGame implements IAppLogic {
         source.cleanup();
         end();
     }
-    public Scene getScene() {
-        return scene;
-    }
-
-    public Canvas getCanvas() {
-        return canvas;
-    }
-
-    public Camera getCamera() {
-        return camera;
-    }
 
     public abstract void start();
     public abstract void update();
     public abstract void end();
 
-    public SoundPlayer getSource() {
-        return source;
-    }
+
 }

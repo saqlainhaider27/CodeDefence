@@ -1,5 +1,6 @@
-package Core.Scene.UI;
+package Core.Canvas.Elemets;
 
+import Utils.Interfaces.IBehaviour;
 import Core.Scene.Entity.Mesh;
 import Core.Scene.Entity.Texture;
 import Utils.Generics.List;
@@ -7,7 +8,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-public abstract class UIObject {
+public abstract class UIObject implements IBehaviour {
 
     private Texture texture;
     protected boolean visible = true;

@@ -1,5 +1,6 @@
-package Core.Scene.UI;
+package Core.Canvas;
 
+import Core.Canvas.Elemets.UIObject;
 import Utils.Generics.List;
 import org.joml.Matrix4f;
 

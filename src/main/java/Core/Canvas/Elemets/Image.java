@@ -1,9 +1,9 @@
-package Core.Scene.UI;
+package Core.Canvas.Elemets;
 
 import Core.Scene.Entity.Mesh;
 import Utils.Shapes.Square;
 
-public class Image extends UIObject{
+public class Image extends UIObject {
     public Image(Mesh mesh) {
         super(mesh);
     }

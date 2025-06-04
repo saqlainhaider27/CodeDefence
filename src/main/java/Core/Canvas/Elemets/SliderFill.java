@@ -1,8 +1,7 @@
-package Core.Scene.UI;
+package Core.Canvas.Elemets;
 
 import Core.Scene.Entity.Mesh;
 import Utils.Shapes.Square;
-import org.joml.Vector2f;
 
 public class SliderFill extends UIObject {
 

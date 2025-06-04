@@ -3,13 +3,14 @@ package Core.Scene.Entity;
 import Core.Audio.SoundPlayer;
 import Core.Scene.Entity.Component.BaseComponent;
 import Core.Scene.Scene;
-import Core.Scene.UI.Canvas;
+import Core.Canvas.Canvas;
 import Main.Launcher;
 import Utils.Generics.HashMap;
+import Utils.Interfaces.IBehaviour;
 import org.joml.*;
 
 
-public abstract class GameObject implements IBehaviour{
+public abstract class GameObject implements IBehaviour {
     private HashMap<Class<? extends BaseComponent>, BaseComponent> components = new HashMap<>();
 
     private Matrix4f modelMatrix;
@@ -23,17 +24,18 @@ public abstract class GameObject implements IBehaviour{
         this.model = model;
         this.transform = new Transform();
         modelMatrix = new Matrix4f();
-        scene = Launcher.getGame().getScene();
-        canvas = Launcher.getGame().getCanvas();
-        source = Launcher.getGame().getSource();
+        scene = Launcher.getGame().scene;
+        canvas = Launcher.getGame().canvas;
+        source = Launcher.getGame().source;
         start();
     }
     public GameObject(Model model, Transform transform){
         this.model = model;
         this.transform = transform;
         modelMatrix = new Matrix4f();
-        scene = Launcher.getGame().getScene();
-        canvas = Launcher.getGame().getCanvas();
+        scene = Launcher.getGame().scene;
+        canvas = Launcher.getGame().canvas;
+        source = Launcher.getGame().source;
         start();
     }
 

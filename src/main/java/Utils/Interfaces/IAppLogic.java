@@ -1,4 +1,4 @@
-package Core.Engine;
+package Utils.Interfaces;
 
 
 public interface IAppLogic {

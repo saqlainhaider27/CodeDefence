@@ -1,4 +1,4 @@
-package Core.Scene.UI;
+package Core.Canvas.Elemets;
 
 import Core.Scene.Entity.Mesh;
 
