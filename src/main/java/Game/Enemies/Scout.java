@@ -9,4 +9,12 @@ public class Scout extends Enemy{
     public Scout(Model model) {
         super(model);
     }
+
+    @Override
+    public void start() {
+        super.start();
+        healthComponent.health = 50;
+        characterController.speed = 2f;
+        damage = 1;
+    }
 }

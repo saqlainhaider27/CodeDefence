@@ -10,4 +10,9 @@ public class Soldier extends Enemy{
         super(model);
     }
 
+    @Override
+    public void start() {
+        super.start();
+        damage = 2;
+    }
 }

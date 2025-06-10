@@ -16,7 +16,7 @@ public class Turret extends GameObject {
     public static String TEXTURE = "src/main/resources/models/turret/turret.png";
 
     public Shooter shooter;
-    private Health healthComponent;
+    public Health healthComponent;
     private Slider healthBar;
 
     public Turret(Model model) {

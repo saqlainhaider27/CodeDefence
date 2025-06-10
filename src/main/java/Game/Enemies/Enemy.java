@@ -17,7 +17,9 @@ public class Enemy extends GameObject {
     protected float attackDelay = 1f;
     private float lastTime;
 
-    Health healthComponent;
+    protected Health healthComponent;
+    protected CharacterController characterController;
+    protected int damage;
     public Enemy(Model model) {
         super(model);
         path = new Path();
@@ -25,7 +27,8 @@ public class Enemy extends GameObject {
 
     @Override
     public void start() {
-        CharacterController characterController = this.addComponent(CharacterController.class);
+        damage = 1;
+        characterController = this.addComponent(CharacterController.class);
         healthComponent = addComponent(Health.class);
         healthComponent.health = 100;
 
@@ -45,9 +48,9 @@ public class Enemy extends GameObject {
 
     }
 
-    private void attack() {
+    public void attack() {
         CodeDefense game = (CodeDefense) Launcher.getGame();
-        game.getTurret().takeDamage(1);
+        game.getTurret().takeDamage(damage);
     }
     public void takeDamage(int damage){
         healthComponent.hit(damage);
@@ -55,6 +58,7 @@ public class Enemy extends GameObject {
     @Override
     public void update() {
         if (healthComponent.isDead()){
+            CodeDefense.getGameEconomics().addPoints(20);
             scene.removeGameObject(this);
             CodeDefense.getEnemySpawner().despawn(this);
         }

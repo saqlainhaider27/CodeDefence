@@ -9,6 +9,8 @@ import Game.Player.Turret;
 public class CodeDefense extends BaseGame{
     private GameManager gameManager;
     private static EnemySpawner enemySpawner;
+    private static UIManager uiManager;
+    private static GameEconomics gameEconomics;
 
     private Turret turret;
 
@@ -20,6 +22,9 @@ public class CodeDefense extends BaseGame{
 
         gameManager = new GameManager();
         enemySpawner = new EnemySpawner();
+        uiManager = new UIManager(canvas);
+        uiManager.start();
+        gameEconomics = new GameEconomics();
 
         enemySpawner.spawnDelay = 2f;
         enemySpawner.setSpawnLocation(-10,0.5f,-10);
@@ -31,10 +36,6 @@ public class CodeDefense extends BaseGame{
 
         turret = new Turret(ModelLoader.loadModel(Turret.MODEL, Turret.TEXTURE));
 
-        Image image = new Image("src/main/resources/images/image.jpeg");
-        image.setPosition(300,300);
-
-
         scene.addGameObject(new Terrain(ModelLoader.loadModel(Terrain.MODEL, Terrain.TEXTURE)));
         scene.addGameObject(turret);
 
@@ -44,6 +45,7 @@ public class CodeDefense extends BaseGame{
     @Override
     public void update() {
         enemySpawner.spawn();
+        uiManager.update();
     }
 
     @Override
@@ -57,5 +59,9 @@ public class CodeDefense extends BaseGame{
 
     public static EnemySpawner getEnemySpawner() {
         return enemySpawner;
+    }
+
+    public static GameEconomics getGameEconomics() {
+        return gameEconomics;
     }
 }

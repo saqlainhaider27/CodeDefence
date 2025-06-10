@@ -10,4 +10,11 @@ public class Boss extends Enemy{
         super(model);
     }
 
+    @Override
+    public void start() {
+        super.start();
+        damage = 10;
+        healthComponent.health = 10000;
+        characterController.speed = 0.25f;
+    }
 }

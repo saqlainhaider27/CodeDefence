@@ -10,4 +10,10 @@ public class HeavyGunner extends Enemy{
         super(model);
     }
 
+    @Override
+    public void start() {
+        super.start();
+        healthComponent.health = 200;
+        damage = 3;
+    }
 }

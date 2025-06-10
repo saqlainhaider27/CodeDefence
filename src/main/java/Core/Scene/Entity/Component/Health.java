@@ -35,4 +35,10 @@ public class Health extends BaseComponent {
     public int getHealth() {
         return health;
     }
+    public void setHealth(int health){
+        if (health > maxHealth){
+            health = maxHealth;
+        }
+        this.health = health;
+    }
 }
